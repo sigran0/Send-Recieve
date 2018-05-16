@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Send&amp;Receive</string>
+    <string name="facebook_app_id">1988720378110712</string>
+    <string name="fb_login_protocol_scheme">fb1988720378110712</string>
+</resources>
