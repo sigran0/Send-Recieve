@@ -7,6 +7,17 @@ import lombok.Data;
 public class ModelManager {
 
     @Data
+    public static class UserData {
+        String uid;
+        String email;
+        String phoneNumber;
+        String username;
+        boolean isWorker;
+        String profileImageUrl;
+        int birthDateTimestamp;
+    }
+
+    @Data
     public static class CategoryList {
         List<Category> categoryList;
     }

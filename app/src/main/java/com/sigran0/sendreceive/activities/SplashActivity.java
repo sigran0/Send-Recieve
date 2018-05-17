@@ -9,8 +9,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.facebook.login.widget.LoginButton;
 import com.sigran0.sendreceive.R;
 import com.sigran0.sendreceive.interfaces.SigninCallback;
+import com.sigran0.sendreceive.managers.DatabaseManager;
+import com.sigran0.sendreceive.managers.ModelManager;
 import com.sigran0.sendreceive.managers.UserManager;
 
 import butterknife.BindView;
@@ -20,6 +23,7 @@ public class SplashActivity extends BaseActivity {
 
     public static final String TAG = "fucking";
     UserManager userManager;
+    DatabaseManager databaseManager;
 
     @BindView(R.id.a_main_cl_root)
     View mRootView;
@@ -29,18 +33,40 @@ public class SplashActivity extends BaseActivity {
 
     @OnClick(R.id.a_main_bt_login_facebook)
     void onClick(){
-        Toast.makeText(mContext, "fucking", Toast.LENGTH_SHORT).show();
-        userManager.signinWithSNS(UserManager.SigninType.Facebook, mThis, new SigninCallback() {
-            @Override
-            public void success() {
-                Toast.makeText(mContext, "로그인 완료", Toast.LENGTH_SHORT).show();
-            }
+        startProgress(mContext);
+        if(userManager.isSignin()){
+            userManager.signOut();
+            stopProgress();
+        } else {
+            userManager.signinWithSNS(UserManager.SigninType.Facebook, mThis, new SigninCallback() {
+                @Override
+                public void success() {
+                    databaseManager.getUserData(new DatabaseManager.DataReceiveListener<ModelManager.UserData>() {
+                        @Override
+                        public void onReceive(ModelManager.UserData data) {
+                            if(data == null) {
+                                Toast.makeText(mContext, "유저데이터 없음", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(mContext, "유저데이터 있음", Toast.LENGTH_SHORT).show();
+                            }
+                        }
 
-            @Override
-            public void failed() {
-                Toast.makeText(mContext, "로그인 실패", Toast.LENGTH_SHORT).show();
-            }
-        });
+                        @Override
+                        public void onError(String message) {
+                            Log.d(TAG, "onError: " + message);
+                        }
+                    });
+                    mBtLoginFacebook.setVisibility(View.INVISIBLE);
+                    stopProgress();
+                }
+
+                @Override
+                public void failed() {
+                    stopProgress();
+                    Toast.makeText(mContext, "로그인 실패", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     Context mContext;
@@ -51,20 +77,17 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         userManager = UserManager.getInstance();
+        databaseManager = DatabaseManager.getInstance();
         mContext = this;
         mThis = this;
 
         startProgress(this);
 
         if(userManager.isSignin()) {
-            //  로그인이 되있을 경우
-            //  메인화면으로 보내기
+            mBtLoginFacebook.setVisibility(View.VISIBLE);
+            stopProgress();
         } else {
-            //  로그인이 안되있을 경우
-            //  로그인 화면으로 보내기
-            Snackbar.make(mRootView, "로그인이 필요합니다.", Snackbar.LENGTH_SHORT)
-                    .setAction("close", null)
-                    .show();
+            mBtLoginFacebook.setVisibility(View.VISIBLE);
             stopProgress();
         }
     }

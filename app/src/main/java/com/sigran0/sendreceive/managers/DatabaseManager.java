@@ -14,11 +14,12 @@ public class DatabaseManager {
 
     private static DatabaseManager instance;
     private FirebaseDatabase database;
+    private UserManager userManager;
 
     private DatabaseManager(){
 
         database = FirebaseDatabase.getInstance();
-        Log.d(TAG, String.format("database : %s", database.toString()));
+        userManager = UserManager.getInstance();
     }
 
     public static DatabaseManager getInstance(){
@@ -27,6 +28,28 @@ public class DatabaseManager {
             instance = new DatabaseManager();
 
         return instance;
+    }
+
+    public void getUserData(final DataReceiveListener<ModelManager.UserData> listener) {
+
+        final String uid = userManager.getUID();
+
+        database.getReference("userData")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ModelManager.UserData result = dataSnapshot
+                                                        .child(uid)
+                                                        .getValue(ModelManager.UserData.class);
+                        listener.onReceive(result);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        listener.onError(databaseError.getMessage());
+                        throw databaseError.toException();
+                    }
+                });
     }
 
     public void getCategoryList(final DataReceiveListener<ModelManager.CategoryList> listener){
@@ -41,7 +64,7 @@ public class DatabaseManager {
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        listener.onError("good");
+                        listener.onError(databaseError.getMessage());
                     }
                 });
     }

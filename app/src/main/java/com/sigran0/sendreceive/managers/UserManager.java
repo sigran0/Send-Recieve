@@ -1,6 +1,7 @@
 package com.sigran0.sendreceive.managers;
 
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -61,6 +62,7 @@ public class UserManager {
     }
 
     public boolean isSignin(){
+        user = auth.getCurrentUser();
         return user != null;
     }
 
@@ -74,6 +76,13 @@ public class UserManager {
 
     public SigninType getSigninType(){
         return signinType;
+    }
+
+    public String getUID(){
+        if(isSignin()) {
+            return user.getUid();
+        } else
+            throw new IllegalStateException("User is not sigin yet");
     }
 
     public String getUsername(){
@@ -100,6 +109,20 @@ public class UserManager {
             return email;
         } else
             throw new IllegalStateException("User is not signin yet.");
+    }
+
+    public Uri getUserProfileImage(){
+        if(isSignin()) {
+
+            Uri imageUri = user.getPhotoUrl();
+
+            return imageUri;
+        } else
+            throw new IllegalStateException("User is not signin yet.");
+    }
+
+    public void signOut(){
+        auth.signOut();
     }
 
     public void signinWithSNS(final SigninType type, final BaseActivity activity, final SigninCallback callback){
