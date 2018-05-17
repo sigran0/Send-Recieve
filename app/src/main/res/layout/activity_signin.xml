@@ -4,16 +4,107 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorPrimaryDark"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.sigran0.sendreceive.activities.SigninActivity">
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        fresco:placeholderImage="@drawable/default-user"
-        fresco:roundedCornerRadius="5dp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        fresco:layout_constraintBottom_toBottomOf="parent"
+        fresco:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:orientation="horizontal"
+            android:padding="15dp"
+            fresco:layout_constraintEnd_toEndOf="parent"
+            fresco:layout_constraintStart_toStartOf="parent">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                fresco:placeholderImage="@drawable/baseline_account_circle_white_48"
+                fresco:roundedCornerRadius="5dp"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <com.github.florent37.materialtextfield.MaterialTextField
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                app:mtf_image="@drawable/baseline_clear_white_48"
+                app:mtf_labelColor="@color/md_white_1000"
+                app:mtf_backgroundColor="@color/colorPrimaryDark"
+                tools:layout_editor_absoluteX="168dp"
+                tools:layout_editor_absoluteY="16dp">
+
+                <EditText
+                    android:id="@+id/a_signin_et_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="User Name"
+                    android:background="@color/colorPrimaryDark"
+                    android:textColor="@color/md_white_1000"
+                    android:textSize="15sp" />
+            </com.github.florent37.materialtextfield.MaterialTextField>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp">
+
+            <com.github.florent37.materialtextfield.MaterialTextField
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                app:mtf_image="@drawable/baseline_clear_white_48"
+                app:mtf_labelColor="@color/md_white_1000"
+                app:mtf_backgroundColor="@color/colorPrimaryDark"
+                tools:layout_editor_absoluteX="168dp"
+                tools:layout_editor_absoluteY="16dp">
+
+                <EditText
+                    android:id="@+id/a_signin_et_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email"
+                    android:background="@color/colorPrimaryDark"
+                    android:textColor="@color/md_white_1000"
+                    android:textSize="15sp" />
+            </com.github.florent37.materialtextfield.MaterialTextField>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp">
+
+            <com.github.florent37.materialtextfield.MaterialTextField
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                app:mtf_image="@drawable/baseline_clear_white_48"
+                app:mtf_labelColor="@color/md_white_1000"
+                app:mtf_backgroundColor="@color/colorPrimaryDark"
+                tools:layout_editor_absoluteX="168dp"
+                tools:layout_editor_absoluteY="16dp">
+
+                <EditText
+                    android:id="@+id/a_signin_et_phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Phone Number"
+                    android:background="@color/colorPrimaryDark"
+                    android:textColor="@color/md_white_1000"
+                    android:textSize="15sp" />
+            </com.github.florent37.materialtextfield.MaterialTextField>
+        </LinearLayout>
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

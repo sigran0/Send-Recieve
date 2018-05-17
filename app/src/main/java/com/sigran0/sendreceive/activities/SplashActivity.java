@@ -2,6 +2,7 @@ package com.sigran0.sendreceive.activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -41,23 +42,8 @@ public class SplashActivity extends BaseActivity {
             userManager.signinWithSNS(UserManager.SigninType.Facebook, mThis, new SigninCallback() {
                 @Override
                 public void success() {
-                    databaseManager.getUserData(new DatabaseManager.DataReceiveListener<ModelManager.UserData>() {
-                        @Override
-                        public void onReceive(ModelManager.UserData data) {
-                            if(data == null) {
-                                Toast.makeText(mContext, "유저데이터 없음", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(mContext, "유저데이터 있음", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onError(String message) {
-                            Log.d(TAG, "onError: " + message);
-                        }
-                    });
                     mBtLoginFacebook.setVisibility(View.INVISIBLE);
-                    stopProgress();
+                    loadUserdata();
                 }
 
                 @Override
@@ -84,8 +70,8 @@ public class SplashActivity extends BaseActivity {
         startProgress(this);
 
         if(userManager.isSignin()) {
+            loadUserdata();
             mBtLoginFacebook.setVisibility(View.VISIBLE);
-            stopProgress();
         } else {
             mBtLoginFacebook.setVisibility(View.VISIBLE);
             stopProgress();
@@ -100,5 +86,27 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void initializeLayout(){
 
+    }
+
+    private void loadUserdata(){
+        databaseManager.getUserData(new DatabaseManager.DataReceiveListener<ModelManager.UserData>() {
+            @Override
+            public void onReceive(ModelManager.UserData data) {
+                if(data == null) {
+                    Toast.makeText(mContext, "유저데이터 없음", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(SplashActivity.this, SigninActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(mContext, "유저데이터 있음", Toast.LENGTH_SHORT).show();
+                }
+                stopProgress();
+            }
+
+            @Override
+            public void onError(String message) {
+                Log.d(TAG, "onError: " + message);
+                stopProgress();
+            }
+        });
     }
 }
