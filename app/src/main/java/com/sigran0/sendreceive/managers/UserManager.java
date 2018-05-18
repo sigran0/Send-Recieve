@@ -87,26 +87,14 @@ public class UserManager {
 
     public String getUsername(){
         if(isSignin()){
-
-            String name = user.getDisplayName();
-
-            if(name == null)
-                name = "";
-
-            return name;
+            return user.getDisplayName();
         } else
             throw new IllegalStateException("User is not signin yet.");
     }
 
     public String getUserEmail(){
         if(isSignin()){
-
-            String email = user.getEmail();
-
-            if(email == null)
-                email = "";
-
-            return email;
+            return user.getEmail();
         } else
             throw new IllegalStateException("User is not signin yet.");
     }

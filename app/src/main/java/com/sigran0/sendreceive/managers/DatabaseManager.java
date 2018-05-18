@@ -30,6 +30,10 @@ public class DatabaseManager {
         return instance;
     }
 
+    public void saveUserData(ModelManager.UserData data) {
+        database.getReference("userData").child(data.getUid()).setValue(data);
+    }
+
     public void getUserData(final DataReceiveListener<ModelManager.UserData> listener) {
 
         final String uid = userManager.getUID();

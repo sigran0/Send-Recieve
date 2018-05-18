@@ -5,4 +5,9 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="MyRadioButton" parent="Theme.AppCompat.DayNight">
+        <item name="colorControlNormal">@color/md_indigo_400</item>
+        <item name="colorControlActivated">@color/md_pink_400</item>
+    </style>
+
 </resources>

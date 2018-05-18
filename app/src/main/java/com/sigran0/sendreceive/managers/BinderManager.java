@@ -70,7 +70,11 @@ public class BinderManager {
     }
 
     public void unbind(@NonNull String key){
-        mBindList.get(key).clear();
+
+        SparseArray temp = mBindList.get(key);
+
+        if(temp != null)
+            temp.clear();
     }
 
     public void removeAll(){

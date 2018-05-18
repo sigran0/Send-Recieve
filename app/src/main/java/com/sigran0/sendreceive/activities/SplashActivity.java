@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.facebook.login.widget.LoginButton;
+import com.github.florent37.materialtextfield.MaterialTextField;
 import com.sigran0.sendreceive.R;
 import com.sigran0.sendreceive.interfaces.SigninCallback;
 import com.sigran0.sendreceive.managers.DatabaseManager;
@@ -18,6 +19,7 @@ import com.sigran0.sendreceive.managers.ModelManager;
 import com.sigran0.sendreceive.managers.UserManager;
 
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.OnClick;
 
 public class SplashActivity extends BaseActivity {
@@ -42,7 +44,7 @@ public class SplashActivity extends BaseActivity {
             userManager.signinWithSNS(UserManager.SigninType.Facebook, mThis, new SigninCallback() {
                 @Override
                 public void success() {
-                    mBtLoginFacebook.setVisibility(View.INVISIBLE);
+//                    mBtLoginFacebook.setVisibility(View.INVISIBLE);
                     loadUserdata();
                 }
 
