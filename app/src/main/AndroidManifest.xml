@@ -3,6 +3,8 @@
     package="com.sigran0.sendreceive">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".tools.MyAndroidApp"
@@ -46,6 +48,10 @@
             android:name=".activities.MainActivity"
             android:label="@string/title_activity_main">
         </activity>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAMaBRKahsEWE0mL1jE--syFMBBFlhMl8E"
+        />
     </application>
 
 </manifest>

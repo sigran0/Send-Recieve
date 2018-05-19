@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.sigran0.sendreceive.activities.BaseActivity;
 import com.sigran0.sendreceive.dialogs.SimpleProgressDialog;
+import com.sigran0.sendreceive.managers.BinderManager;
 import com.sigran0.sendreceive.tools.RecycleUtils;
 
 import java.lang.reflect.Constructor;
@@ -31,6 +32,7 @@ public abstract class BaseFragment extends Fragment implements Parcelable{
     protected View rootView;
     private SimpleProgressDialog mProgress;
     private Unbinder unbinder;
+    protected BinderManager binderManager = BinderManager.getInstance();
 
     @Nullable
     @Override

@@ -64,6 +64,8 @@ public class MainActivity extends BaseActivity {
         BaseFragment sendFragment = new SendFragment();
         BaseFragment myInfoFragment = new MyInfoFragment();
 
+        mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
+
         mainPagerAdapter.addPage(sendFragment);
         mainPagerAdapter.addPage(myInfoFragment);
 

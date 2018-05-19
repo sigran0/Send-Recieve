@@ -2,10 +2,12 @@ package com.sigran0.sendreceive.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 
@@ -13,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.sigran0.sendreceive.R;
 import com.sigran0.sendreceive.dialogs.SimpleProgressDialog;
 import com.sigran0.sendreceive.fragments.BaseFragment;
+import com.sigran0.sendreceive.managers.BinderManager;
 import com.sigran0.sendreceive.managers.UserManager;
 
 import butterknife.ButterKnife;
@@ -26,6 +29,11 @@ public abstract class BaseActivity extends FragmentActivity{
     private boolean mStartActivityAnimation = false;
     private int mFinishActivityAnimationEnterResId = -1, mFinishActivityAnimationExitResId = -1;
     private boolean mFinishActivityAnimation = false;
+
+    private BinderManager binderManager = BinderManager.getInstance();
+
+    private final int GALLERY_CODE = 1112;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +70,7 @@ public abstract class BaseActivity extends FragmentActivity{
     @Override
     public void finish() {
         super.finish();
+        BinderManager.getInstance().removeAll();
         if (mFinishActivityAnimation) {
             overridePendingTransition(mFinishActivityAnimationEnterResId, mFinishActivityAnimationExitResId);
         }
@@ -128,16 +137,30 @@ public abstract class BaseActivity extends FragmentActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
 
-        UserManager userManager = UserManager.getInstance();
+        if(resultCode == RESULT_OK) {
 
-        if(userManager.getSigninState() == UserManager.SigninState.Waiting){
+            Log.d("fucking", "onActivityResult: " + requestCode);
 
-            if(userManager.getSigninType() == UserManager.SigninType.Twitter) {
+            switch (requestCode) {
+                case GALLERY_CODE:
+                    Uri imageUri = data.getData();
+                    binderManager.startUpdate("send_image", imageUri);
+                    break;
+                default: {
+                    UserManager userManager = UserManager.getInstance();
 
-            } else {
-                userManager.getCallbackManager().onActivityResult(requestCode, resultCode, data);
+                    if(userManager.getSigninState() == UserManager.SigninState.Waiting){
+
+                        if(userManager.getSigninType() == UserManager.SigninType.Twitter) {
+
+                        } else {
+                            userManager.getCallbackManager().onActivityResult(requestCode, resultCode, data);
+                        }
+                    }
+
+                    break;
+                }
             }
         }
-
     }
 }
