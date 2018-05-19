@@ -7,19 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sigran0.sendreceive.R;
-import com.sigran0.sendreceive.managers.DatabaseManager;
-import com.sigran0.sendreceive.managers.ModelManager;
 
 /**
  * Created by Administrator on 2018-05-19.
  */
 
-public class SendFragment extends BaseFragment{
+public class MyInfoFragment extends BaseFragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        setRoot(R.layout.fragment_send, inflater, container, savedInstanceState);
+        setRoot(R.layout.fragment_my_info, inflater, container, savedInstanceState);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 

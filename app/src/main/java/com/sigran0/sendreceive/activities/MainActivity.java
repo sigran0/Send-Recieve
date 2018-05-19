@@ -8,27 +8,39 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.sigran0.sendreceive.R;
+import com.sigran0.sendreceive.fragments.BaseFragment;
+import com.sigran0.sendreceive.fragments.MyInfoFragment;
+import com.sigran0.sendreceive.fragments.SendFragment;
 import com.sigran0.sendreceive.managers.DatabaseManager;
 import com.sigran0.sendreceive.managers.UserManager;
+import com.sigran0.sendreceive.pagerAdapter.MainPagerAdapter;
+import com.sigran0.sendreceive.views.LockableViewPager;
+
+import butterknife.BindView;
+import butterknife.BindViews;
 
 public class MainActivity extends BaseActivity {
 
     private TextView mTextMessage;
 
+    MainPagerAdapter mainPagerAdapter;
+
+    @BindView(R.id.a_main_lvp)
+    LockableViewPager viewPager;
+
+    @BindView(R.id.a_main_navigation)
+    BottomNavigationView navigationView;
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
+                case R.id.navigation_send:
+                    viewPager.setCurrentItem(0, true);
                     return true;
                 case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
-                    return true;
-                case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
+                    viewPager.setCurrentItem(1, true);
                     return true;
             }
             return false;
@@ -38,10 +50,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
     @Override
@@ -51,7 +59,17 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initializeLayout(){
+        navigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        BaseFragment sendFragment = new SendFragment();
+        BaseFragment myInfoFragment = new MyInfoFragment();
+
+        mainPagerAdapter.addPage(sendFragment);
+        mainPagerAdapter.addPage(myInfoFragment);
+
+        viewPager.setAdapter(mainPagerAdapter);
+        viewPager.setOffscreenPageLimit(2);
+        viewPager.setSwipeLocked(true);
     }
 
 }
