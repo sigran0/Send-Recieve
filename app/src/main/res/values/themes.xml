@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.MyTheme" parent="Theme.AppCompat">
+        <!-- Set AppCompat’s actionBarStyle -->
+        <item name="actionBarStyle">@style/MaterialDrawerTheme.ActionBar</item>
+
+        <!-- Set AppCompat’s color theming attrs -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+
+        <!-- The rest of your attributes -->
+    </style>
+</resources>

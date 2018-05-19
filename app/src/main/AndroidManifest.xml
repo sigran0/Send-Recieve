@@ -40,7 +40,12 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SigninActivity"></activity>
+        <activity android:name=".activities.SigninActivity" />
+        <activity
+            android:theme="@style/Theme.MyTheme"
+            android:name=".activities.MainActivity"
+            android:label="@string/title_activity_main">
+        </activity>
     </application>
 
 </manifest>

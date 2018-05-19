@@ -53,6 +53,8 @@ dependencies {
     compile 'com.ssomai:android.scalablelayout:2.1.6'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.github.rey5137:material:1.2.4'
+    compile 'com.wdullaer:materialdatetimepicker:3.6.0'
+
     implementation 'com.github.florent37:materialtextfield:1.0.7'
 
 

@@ -38,8 +38,6 @@ public abstract class BaseFragment extends Fragment implements Parcelable{
 
         unbinder = ButterKnife.bind(this, rootView);
         initializeLayout();
-        Log.d(TAG, String.format("onCreateView"));
-
         return rootView;
     }
 

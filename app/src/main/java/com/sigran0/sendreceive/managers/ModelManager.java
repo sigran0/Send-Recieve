@@ -12,9 +12,9 @@ public class ModelManager {
         String email;
         String phoneNumber;
         String username;
-        boolean isWorker;
+        int type;
         String profileImageUrl;
-        int birthDateTimestamp;
+        String birthDate;
     }
 
     @Data

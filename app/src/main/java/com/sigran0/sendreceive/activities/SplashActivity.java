@@ -1,17 +1,13 @@
 package com.sigran0.sendreceive.activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.facebook.login.widget.LoginButton;
-import com.github.florent37.materialtextfield.MaterialTextField;
 import com.sigran0.sendreceive.R;
 import com.sigran0.sendreceive.interfaces.SigninCallback;
 import com.sigran0.sendreceive.managers.DatabaseManager;
@@ -19,7 +15,6 @@ import com.sigran0.sendreceive.managers.ModelManager;
 import com.sigran0.sendreceive.managers.UserManager;
 
 import butterknife.BindView;
-import butterknife.BindViews;
 import butterknife.OnClick;
 
 public class SplashActivity extends BaseActivity {
@@ -82,7 +77,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected int getLayoutResourceId(){
-        return R.layout.activity_main;
+        return R.layout.activity_splash;
     }
 
     @Override
@@ -95,11 +90,11 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void onReceive(ModelManager.UserData data) {
                 if(data == null) {
-                    Toast.makeText(mContext, "유저데이터 없음", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(SplashActivity.this, SigninActivity.class);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(mContext, "유저데이터 있음", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(intent);
                 }
                 stopProgress();
             }
