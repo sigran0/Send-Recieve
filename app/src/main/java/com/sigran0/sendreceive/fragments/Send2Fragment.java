@@ -30,7 +30,7 @@ public class Send2Fragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        setRoot(R.layout.fragment_send_2, inflater, container, savedInstanceState);
+        setRoot(R.layout.fragment_send_2_2, inflater, container, savedInstanceState);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
