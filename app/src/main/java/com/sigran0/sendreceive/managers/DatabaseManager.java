@@ -2,7 +2,6 @@ package com.sigran0.sendreceive.managers;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -12,7 +11,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 public class DatabaseManager {
@@ -40,7 +38,7 @@ public class DatabaseManager {
         return instance;
     }
 
-    public void uploadImage(String key, Uri imageUri, final SaveListener listener) {
+    public void uploadImage(String key, Uri imageUri, final DataSendListener listener) {
         UploadTask uploadTask = storage
                                     .getReference("itemImage")
                                     .child(key)
@@ -59,19 +57,39 @@ public class DatabaseManager {
         });
     }
 
-    public void saveUserData(final ModelManager.UserData data, Uri imageUri, final SaveListener saveListener) {
+
+    public void downloadImage(String key, final DataReceiveListener<Uri> listener) {
+        storage.getReference("itemImage")
+                .child(key)
+                .getDownloadUrl()
+                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        listener.success(uri);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        e.printStackTrace();
+                        listener.fail(e.getMessage());
+                    }
+                });
+    }
+
+    public void saveUserData(final ModelManager.UserData data, Uri imageUri, final DataSendListener dataSendListener) {
         final DatabaseReference ref = database
                                         .getReference("userData")
-                                        .child(data.getUid())
-                                        .push();
+                                        .child(data.getUid());
+
         final String key = ref.getKey();
 
-        uploadImage(key, imageUri, new SaveListener() {
+        uploadImage(key, imageUri, new DataSendListener() {
             @Override
             public void success() {
                 data.setImageUrl(key);
                 ref.setValue(data);
-                saveListener.success();
+                dataSendListener.success();
             }
 
             @Override
@@ -81,16 +99,16 @@ public class DatabaseManager {
         });
     }
 
-    public void saveItemData(final ModelManager.ItemData data, Uri imageUri, final SaveListener saveListener) {
+    public void saveItemData(final ModelManager.ItemData data, Uri imageUri, final DataSendListener dataSendListener) {
         final DatabaseReference ref = database.getReference("itemData").push();
         final String key = ref.getKey();
 
-        uploadImage(key, imageUri, new SaveListener() {
+        uploadImage(key, imageUri, new DataSendListener() {
             @Override
             public void success() {
                 data.setImageUrl(key);
                 ref.setValue(data);
-                saveListener.success();
+                dataSendListener.success();
             }
 
             @Override
@@ -105,85 +123,54 @@ public class DatabaseManager {
         final String uid = userManager.getUID();
 
         database.getReference("userData")
+                .child(uid)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         ModelManager.UserData result = dataSnapshot
-                                                        .child(uid)
                                                         .getValue(ModelManager.UserData.class);
-                        listener.onReceive(result);
+                        listener.success(result);
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        listener.onError(databaseError.getMessage());
+                        listener.fail(databaseError.getMessage());
                         throw databaseError.toException();
                     }
                 });
     }
 
-    public void getCategoryList(final DataReceiveListener<ModelManager.CategoryList> listener){
+    public void getMySendListData(final DataReceiveListener<ModelManager.ItemDataList> listener) {
 
-        database.getReference("categoryData")
+        final String uid = userManager.getUID();
+
+        database.getReference("itemData")
+                .equalTo("customerUid", uid)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        ModelManager.CategoryList result = dataSnapshot.getValue(ModelManager.CategoryList.class);
-                        listener.onReceive(result);
+                        ModelManager.ItemDataList
+                                result = dataSnapshot
+                                .getValue(ModelManager.ItemDataList.class);
+                        listener.success(result);
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        listener.onError(databaseError.getMessage());
+                        listener.fail(databaseError.getMessage());
+                        throw databaseError.toException();
                     }
                 });
+
     }
 
-//    public void getCategoryList(final DataReceiveListener<List<ModelManager.Category>> listener){
-//
-//        database.getReference("category").addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                List<ModelManager.Category> result = new ArrayList<>();
-//
-//                for(DataSnapshot category : dataSnapshot.getChildren()){
-//                    List<ModelManager.SubCategory> subResult = new ArrayList<>();
-//
-//                    for(DataSnapshot subCategory : category.getChildren()){
-//                        if(!subCategory.getKey().equals("title")) {
-//                            ModelManager.SubCategory sub = subCategory.getValue(ModelManager.SubCategory.class);
-//                            subResult.add(sub);
-//                        }
-//                    }
-//
-//                    ModelManager.TranslateData categoryTitle = category.child("title").getValue(ModelManager.TranslateData.class);
-//
-//                    ModelManager.Category resultCategory = new ModelManager.Category();
-//
-//                    resultCategory.setCategories(subResult);
-//                    resultCategory.setTitle(categoryTitle);
-//
-//                    result.add(resultCategory);
-//                }
-//
-//                listener.onReceive(result);
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                listener.onError("good");
-//            }
-//        });
-//    }
-
-    public interface SaveListener {
+    public interface DataSendListener {
         public void success();
         public void fail(String message);
     }
 
     public interface DataReceiveListener<T>{
-        public void onReceive(T data);
-        public void onError(String message);
+        public void success(T data);
+        public void fail(String message);
     }
 }

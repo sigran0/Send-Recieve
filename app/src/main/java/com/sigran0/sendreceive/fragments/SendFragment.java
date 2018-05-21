@@ -3,15 +3,12 @@ package com.sigran0.sendreceive.fragments;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ScrollView;
-import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.florent37.materialtextfield.MaterialTextField;
@@ -22,7 +19,6 @@ import com.sigran0.sendreceive.managers.BinderManager;
 import com.sigran0.sendreceive.managers.DatabaseManager;
 import com.sigran0.sendreceive.managers.ModelManager;
 import com.sigran0.sendreceive.pagerAdapter.SendPagerAdapter;
-import com.sigran0.sendreceive.views.LockableViewPager;
 
 import butterknife.BindView;
 import butterknife.BindViews;
@@ -114,7 +110,7 @@ public class SendFragment extends BaseFragment{
 
         startProgress();
 
-        databaseManager.saveItemData(data, imageUri, new DatabaseManager.SaveListener() {
+        databaseManager.saveItemData(data, imageUri, new DatabaseManager.DataSendListener() {
             @Override
             public void success() {
                 stopProgress();

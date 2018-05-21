@@ -33,8 +33,7 @@ public class SplashActivity extends BaseActivity {
     void onClick(){
         startProgress(mContext);
         if(userManager.isSignin()){
-            userManager.signOut();
-            stopProgress();
+            onStop();
         } else {
             userManager.signinWithSNS(UserManager.SigninType.Facebook, mThis, new SigninCallback() {
                 @Override
@@ -66,12 +65,12 @@ public class SplashActivity extends BaseActivity {
 
         startProgress(this);
 
+        mBtLoginFacebook.setVisibility(View.INVISIBLE);
+
         if(userManager.isSignin()) {
             loadUserdata();
-            mBtLoginFacebook.setVisibility(View.VISIBLE);
         } else {
             Log.d(TAG, "onCreate: 로그인 실패");
-            Toast.makeText(mContext, "로그인 실패", Toast.LENGTH_SHORT).show();
             mBtLoginFacebook.setVisibility(View.VISIBLE);
             stopProgress();
         }
@@ -90,20 +89,21 @@ public class SplashActivity extends BaseActivity {
     private void loadUserdata(){
         databaseManager.getUserData(new DatabaseManager.DataReceiveListener<ModelManager.UserData>() {
             @Override
-            public void onReceive(ModelManager.UserData data) {
+            public void success(ModelManager.UserData data) {
                 if(data == null) {
                     Intent intent = new Intent(SplashActivity.this, SigninActivity.class);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                     startActivity(intent);
+                    finish();
                 }
                 stopProgress();
             }
 
             @Override
-            public void onError(String message) {
-                Log.d(TAG, "onError: " + message);
+            public void fail(String message) {
+                Log.d(TAG, "fail: " + message);
                 stopProgress();
             }
         });

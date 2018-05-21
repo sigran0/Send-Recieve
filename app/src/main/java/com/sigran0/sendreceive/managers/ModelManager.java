@@ -3,10 +3,12 @@ package com.sigran0.sendreceive.managers;
 import java.util.List;
 
 import lombok.Data;
+import lombok.Setter;
 
 public class ModelManager {
 
     @Data
+    @Setter
     public static class UserData {
         String uid;
         String email;
@@ -14,7 +16,6 @@ public class ModelManager {
         String username;
         String imageUrl;
         int type;
-        String profileImageUrl;
         String birthDate;
     }
 
@@ -31,6 +32,12 @@ public class ModelManager {
         int category;
         int size;
         int processState;
+    }
+
+    @Data
+    @Setter
+    public static class ItemDataList {
+        List<ItemData> itemDataList;
     }
 
     @Data

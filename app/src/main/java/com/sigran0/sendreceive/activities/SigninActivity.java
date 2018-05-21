@@ -1,18 +1,13 @@
 package com.sigran0.sendreceive.activities;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -24,12 +19,9 @@ import com.sigran0.sendreceive.managers.DatabaseManager;
 import com.sigran0.sendreceive.managers.ModelManager;
 import com.sigran0.sendreceive.managers.UserManager;
 
-import java.util.Calendar;
-
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.OnClick;
-import lombok.ToString;
 
 public class SigninActivity extends BaseActivity {
 
@@ -123,11 +115,10 @@ public class SigninActivity extends BaseActivity {
         userData.setPhoneNumber(phonenumber);
         userData.setUsername(username);
         userData.setBirthDate(birthDate);
-        userData.setProfileImageUrl("hello");
         userData.setUid(uid);
         userData.setType(check);
 
-        dbManager.saveUserData(userData, imageUri, new DatabaseManager.SaveListener() {
+        dbManager.saveUserData(userData, imageUri, new DatabaseManager.DataSendListener() {
             @Override
             public void success() {
                 stopProgress();
@@ -135,6 +126,7 @@ public class SigninActivity extends BaseActivity {
                 SigninActivity.this.finish();
                 Intent intent = new Intent(SigninActivity.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             }
 
             @Override
@@ -212,7 +204,6 @@ public class SigninActivity extends BaseActivity {
                                 materialTextFields[3].getEditText().setText(dateString);
                             }
                         }, 2018, 5, 20);
-
                 dialog.show();
 
             }

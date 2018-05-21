@@ -293,7 +293,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:background="@color/primary"
+                android:background="@drawable/ripple"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
                 android:text="배송하기"
