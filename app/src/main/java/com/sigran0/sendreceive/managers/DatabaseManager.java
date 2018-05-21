@@ -59,8 +59,26 @@ public class DatabaseManager {
         });
     }
 
-    public void saveUserData(ModelManager.UserData data) {
-        database.getReference("userData").child(data.getUid()).setValue(data);
+    public void saveUserData(final ModelManager.UserData data, Uri imageUri, final SaveListener saveListener) {
+        final DatabaseReference ref = database
+                                        .getReference("userData")
+                                        .child(data.getUid())
+                                        .push();
+        final String key = ref.getKey();
+
+        uploadImage(key, imageUri, new SaveListener() {
+            @Override
+            public void success() {
+                data.setImageUrl(key);
+                ref.setValue(data);
+                saveListener.success();
+            }
+
+            @Override
+            public void fail(String message) {
+                fail(message);
+            }
+        });
     }
 
     public void saveItemData(final ModelManager.ItemData data, Uri imageUri, final SaveListener saveListener) {

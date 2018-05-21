@@ -12,6 +12,7 @@ public class ModelManager {
         String email;
         String phoneNumber;
         String username;
+        String imageUrl;
         int type;
         String profileImageUrl;
         String birthDate;

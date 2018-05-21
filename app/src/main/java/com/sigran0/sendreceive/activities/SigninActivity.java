@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,8 +16,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.florent37.materialtextfield.MaterialTextField;
 import com.sigran0.sendreceive.R;
+import com.sigran0.sendreceive.managers.BinderManager;
 import com.sigran0.sendreceive.managers.DatabaseManager;
 import com.sigran0.sendreceive.managers.ModelManager;
 import com.sigran0.sendreceive.managers.UserManager;
@@ -31,6 +34,9 @@ import lombok.ToString;
 public class SigninActivity extends BaseActivity {
 
     private static final String TAG = "fucking";
+    private final int GALLERY_CODE = 1112;
+
+    private BinderManager binderManager = BinderManager.getInstance();
 
     Context context;
 
@@ -40,8 +46,31 @@ public class SigninActivity extends BaseActivity {
     @BindView(R.id.a_signin_rg)
     RadioGroup radioGroup;
 
+    @BindView(R.id.a_siginin_sdv_profile)
+    SimpleDraweeView sdvProfile;
+
+    @OnClick(R.id.a_siginin_sdv_profile)
+    void onClickProfile() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(intent, GALLERY_CODE);
+
+        binderManager.unbind("send_image");
+        binderManager.bind("send_image", new BinderManager.BinderInterface<Uri>() {
+            @Override
+            public void update(Uri data) {
+                imageUri = data;
+                sdvProfile.setImageURI(imageUri);
+            }
+        });
+    }
+
+    private Uri imageUri = null;
+
     @OnClick(R.id.a_signin_bt_signin)
     void onClickSignin(){
+        startProgress(SigninActivity.this);
         String username = materialTextFields[2].getEditText().getText().toString();
         String email = materialTextFields[0].getEditText().getText().toString();
         String phonenumber = materialTextFields[1].getEditText().getText().toString();
@@ -84,6 +113,11 @@ public class SigninActivity extends BaseActivity {
             return;
         }
 
+        if(imageUri == null) {
+            Toast.makeText(context, "프로필 사진을 입력 해주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         ModelManager.UserData userData = new ModelManager.UserData();
         userData.setEmail(email);
         userData.setPhoneNumber(phonenumber);
@@ -93,11 +127,23 @@ public class SigninActivity extends BaseActivity {
         userData.setUid(uid);
         userData.setType(check);
 
-        dbManager.saveUserData(userData);
-        Toast.makeText(context, "저장 완료", Toast.LENGTH_SHORT).show();
-        SigninActivity.this.finish();
-        Intent intent = new Intent(SigninActivity.this, MainActivity.class);
-        startActivity(intent);
+        dbManager.saveUserData(userData, imageUri, new DatabaseManager.SaveListener() {
+            @Override
+            public void success() {
+                stopProgress();
+                Toast.makeText(context, "축하합니다! 가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                SigninActivity.this.finish();
+                Intent intent = new Intent(SigninActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void fail(String message) {
+                stopProgress();
+                Toast.makeText(context, "원인불명의 오류로 가입에 실패했습니다 ㅜ_ㅜ.\n다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "fail: fucking " + message);
+            }
+        });
     }
 
     UserManager userManager;
@@ -183,6 +229,8 @@ public class SigninActivity extends BaseActivity {
         if(email != null){
             materialTextFields[0].getEditText().setText(email);
         }
+
+        Uri userProfileImage = userManager.getUserProfileImage();
     }
 }
 

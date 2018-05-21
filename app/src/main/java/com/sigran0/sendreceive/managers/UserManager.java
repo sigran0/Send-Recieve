@@ -106,12 +106,9 @@ public class UserManager {
             throw new IllegalStateException("User is not signin yet.");
     }
 
-    public Uri getUserProfileImage(){
+    public Uri getUserProfileImage() {
         if(isSignin()) {
-
-            Uri imageUri = user.getPhotoUrl();
-
-            return imageUri;
+            return user.getPhotoUrl();
         } else
             throw new IllegalStateException("User is not signin yet.");
     }
