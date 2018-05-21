@@ -42,7 +42,7 @@ public class SendFragment extends BaseFragment{
 
     private SendPagerAdapter sendPagerAdapter;
 
-    @BindViews({R.id.f_send_mtf_start_pos, R.id.f_send_mtf_end_pos, R.id.f_send_mtf_price, R.id.f_send_mtf_estimate_price})
+    @BindViews({R.id.f_send_mtf_start_pos, R.id.f_send_mtf_end_pos, R.id.f_send_mtf_price, R.id.f_send_mtf_estimate_price, R.id.f_send_mtf_name})
     MaterialTextField[] mtfs;
 
     @BindView(R.id.f_send_sdv_image)
@@ -89,6 +89,12 @@ public class SendFragment extends BaseFragment{
         }
 
         int estimate_price = Integer.parseInt(mtfs[3].getEditText().getText().toString());
+        String name = mtfs[4].getEditText().getText().toString();
+
+        if(name.length() <= 0) {
+            showToast("물품의 이름을 입력 해 주세요");
+            return;
+        }
 
         int category = msCategory.getSelectedIndex();
         int size = msSize.getSelectedIndex();
@@ -100,6 +106,7 @@ public class SendFragment extends BaseFragment{
         data.setStartPos(startPosition);
         data.setEndPos(endPosition);
         data.setPrice(price);
+        data.setName(name);
         data.setEstimatePrice(estimate_price);
         data.setCategory(category);
         data.setSize(size);
@@ -167,7 +174,7 @@ public class SendFragment extends BaseFragment{
         }
 
         msCategory.setHint("물품 카테고리");
-        msCategory.setItems("일반", "식품", "냉동품", "깨지기 쉬운것", "전자제품", "취급주의");
+        msCategory.setItems("일반", "식품", "냉동품", "깨지기 쉬운것", "전자제품", "취급주의", "생물");
 
         msSize.setHint("물품 크기");
         msSize.setItems("아주 작음", "작음", "보통", "큼", "아주 큼");

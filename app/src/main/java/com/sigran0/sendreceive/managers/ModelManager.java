@@ -21,6 +21,7 @@ public class ModelManager {
     public static class ItemData {
         String customerUid;
         String senderUid;
+        String name;
         String imageUrl;
         String startPos;
         String endPos;

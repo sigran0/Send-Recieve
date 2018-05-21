@@ -99,6 +99,13 @@ public class UserManager {
             throw new IllegalStateException("User is not signin yet.");
     }
 
+    public String getUserPhoneNumber() {
+        if(isSignin()) {
+            return user.getPhoneNumber();
+        } else
+            throw new IllegalStateException("User is not signin yet.");
+    }
+
     public Uri getUserProfileImage(){
         if(isSignin()) {
 

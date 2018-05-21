@@ -103,48 +103,6 @@ public class SigninActivity extends BaseActivity {
     UserManager userManager;
     DatabaseManager dbManager;
 
-    @OnClick({R.id.a_signin_mtf_email, R.id.a_signin_mtf_phonenumber, R.id.a_signin_mtf_username, R.id.a_signin_mtf_date})
-    void onClickMTF(View v){
-        Log.d(TAG, "onClickMTF: " + v.getId());
-        switch(v.getId()) {
-            case R.id.a_signin_mtf_email: {
-                materialTextFields[0].toggle();
-                materialTextFields[0].getEditText().setText("");
-                break;
-            }
-            case R.id.a_signin_mtf_phonenumber: {
-                materialTextFields[1].toggle();
-                materialTextFields[1].getEditText().setText("");
-                break;
-            }
-            case R.id.a_signin_mtf_username: {
-                materialTextFields[2].toggle();
-                materialTextFields[2].getEditText().setText("");
-                break;
-            }
-            case R.id.a_signin_mtf_date: {
-
-                if(materialTextFields[3].isExpanded()) {
-                    materialTextFields[3].getEditText().setText("");
-                } else {
-                    DatePickerDialog dialog = new DatePickerDialog(SigninActivity.this,
-                            new DatePickerDialog.OnDateSetListener() {
-                                @Override
-                                public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
-                                    String dateString = String.format("%d-%d-%d", year, monthOfYear, dayOfMonth);
-                                    materialTextFields[3].getEditText().setText(dateString);
-                                }
-                            }, 2018, 5, 20);
-
-                    dialog.show();
-                }
-                materialTextFields[3].toggle();
-
-                break;
-            }
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,14 +123,65 @@ public class SigninActivity extends BaseActivity {
         String username = userManager.getUsername();
         String email = userManager.getUserEmail();
 
+        for(int c = 0; c < 3; c++) {
+
+            final int index = c;
+            materialTextFields[index].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    materialTextFields[index].toggle();
+                    materialTextFields[index].getEditText().setText("");
+                }
+            });
+        }
+
+        materialTextFields[3].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DatePickerDialog dialog = new DatePickerDialog(SigninActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                                String dateString = String.format("%d-%d-%d", year, monthOfYear, dayOfMonth);
+                                materialTextFields[3].getEditText().setText(dateString);
+                            }
+                        }, 2018, 5, 20);
+
+                dialog.show();
+
+            }
+        });
+
+
+        materialTextFields[3].getEditText().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DatePickerDialog dialog = new DatePickerDialog(SigninActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                                String dateString = String.format("%d-%d-%d", year, monthOfYear, dayOfMonth);
+                                materialTextFields[3].getEditText().setText(dateString);
+                            }
+                        }, 2018, 5, 20);
+
+                dialog.show();
+
+            }
+        });
+
+        for(MaterialTextField mtf : materialTextFields){
+            mtf.expand();
+        }
+
         if(username != null){
             materialTextFields[2].getEditText().setText(username);
-            materialTextFields[2].toggle();
         }
 
         if(email != null){
             materialTextFields[0].getEditText().setText(email);
-            materialTextFields[0].toggle();
         }
     }
 }
