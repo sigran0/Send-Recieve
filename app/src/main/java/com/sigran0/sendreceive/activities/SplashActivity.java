@@ -70,6 +70,8 @@ public class SplashActivity extends BaseActivity {
             loadUserdata();
             mBtLoginFacebook.setVisibility(View.VISIBLE);
         } else {
+            Log.d(TAG, "onCreate: 로그인 실패");
+            Toast.makeText(mContext, "로그인 실패", Toast.LENGTH_SHORT).show();
             mBtLoginFacebook.setVisibility(View.VISIBLE);
             stopProgress();
         }

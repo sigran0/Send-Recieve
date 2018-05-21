@@ -12,10 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import com.sigran0.sendreceive.activities.BaseActivity;
 import com.sigran0.sendreceive.dialogs.SimpleProgressDialog;
 import com.sigran0.sendreceive.managers.BinderManager;
+import com.sigran0.sendreceive.managers.UserManager;
 import com.sigran0.sendreceive.tools.RecycleUtils;
 
 import java.lang.reflect.Constructor;
@@ -33,6 +35,7 @@ public abstract class BaseFragment extends Fragment implements Parcelable{
     private SimpleProgressDialog mProgress;
     private Unbinder unbinder;
     protected BinderManager binderManager = BinderManager.getInstance();
+    protected UserManager userManager = UserManager.getInstance();
 
     @Nullable
     @Override
@@ -179,4 +182,8 @@ public abstract class BaseFragment extends Fragment implements Parcelable{
             return new BaseFragment[i];
         }
     };
+
+    protected void showToast(String text) {
+        Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+    }
 }

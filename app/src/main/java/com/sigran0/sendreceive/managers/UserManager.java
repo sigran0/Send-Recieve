@@ -150,6 +150,7 @@ public class UserManager {
 
                             @Override
                             public void failed(Task<AuthResult> task) {
+                                Log.e(TAG, "failed: fucing error", task.getException());
                                 setUserState(SigninType.None, SigninState.None);
                                 callback.failed();
                             }

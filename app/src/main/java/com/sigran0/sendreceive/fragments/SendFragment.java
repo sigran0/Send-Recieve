@@ -1,15 +1,21 @@
 package com.sigran0.sendreceive.fragments;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.github.florent37.materialtextfield.MaterialTextField;
 import com.google.android.gms.maps.model.LatLng;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.sigran0.sendreceive.R;
 import com.sigran0.sendreceive.managers.BinderManager;
 import com.sigran0.sendreceive.managers.DatabaseManager;
@@ -18,6 +24,7 @@ import com.sigran0.sendreceive.pagerAdapter.SendPagerAdapter;
 import com.sigran0.sendreceive.views.LockableViewPager;
 
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.OnClick;
 
 /**
@@ -26,33 +33,67 @@ import butterknife.OnClick;
 
 public class SendFragment extends BaseFragment{
 
-    @BindView(R.id.f_send_bt_next)
-    Button btNext;
-
-    @BindView(R.id.f_send_lvp)
-    LockableViewPager vp;
-
-    @OnClick(R.id.f_send_bt_next)
-    void onClickNext(){
-
-        //  이미지 선택 패이지
-        if(vp.getCurrentItem() == 0){
-            if(imageUri != null)
-                vp.setCurrentItem(1, true);
-            else
-                Toast.makeText(SendFragment.this.getContext(), "상품 이미지를 선택 해 주세요", Toast.LENGTH_SHORT).show();
-        } else if(vp.getCurrentItem() == 1) {
-            if(startLatLng != null)
-                vp.setCurrentItem(2, true);
-            else
-                Toast.makeText(SendFragment.this.getContext(), "시작 위치를 선택 해 주세요", Toast.LENGTH_SHORT).show();
-        }
-    }
-
+    private final int GALLERY_CODE=1112;
     private Uri imageUri = null;
     private LatLng startLatLng = null;
 
     private SendPagerAdapter sendPagerAdapter;
+
+    @BindViews({R.id.f_send_mtf_start_pos, R.id.f_send_mtf_end_pos, R.id.f_send_mtf_price, R.id.f_send_mtf_estimate_price})
+    MaterialTextField[] mtfs;
+
+    @BindView(R.id.f_send_sdv_image)
+    SimpleDraweeView sdvImage;
+
+    @BindView(R.id.f_send_ms_category)
+    MaterialSpinner msCategory;
+
+    @BindView(R.id.f_send_ms_size)
+    MaterialSpinner msSize;
+
+    @BindView(R.id.f_send_sv_wrapper)
+    ScrollView svWrapper;
+
+    @OnClick(R.id.f_send_bt_submit)
+    void OnClickSubmit() {
+        String customerUid = userManager.getUID();
+        String senderUid = null;
+        String startPosition = mtfs[0].getEditText().getText().toString();
+        String endPosition = mtfs[1].getEditText().getText().toString();
+        int price = Integer.parseInt(mtfs[2].getEditText().getText().toString());
+        int estimate_price = Integer.parseInt(mtfs[3].getEditText().getText().toString());
+        int category = msCategory.getSelectedIndex();
+        int size = msSize.getSelectedIndex();
+        int processState = 0;
+
+        ModelManager.ItemData data = new ModelManager.ItemData();
+        data.setCustomerUid(customerUid);
+        data.setSenderUid(senderUid);
+        data.setStartPos(startPosition);
+        data.setEndPos(endPosition);
+        data.setPrice(price);
+        data.setEstimatePrice(estimate_price);
+        data.setCategory(category);
+        data.setSize(size);
+        data.setProcessState(processState);
+    }
+
+    @OnClick(R.id.f_send_sdv_image)
+    void OnClickImage(){
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        getBaseActivity().startActivityForResult(intent, GALLERY_CODE);
+
+        binderManager.unbind("send_image");
+        binderManager.bind("send_image", new BinderManager.BinderInterface<Uri>() {
+            @Override
+            public void update(Uri data) {
+                imageUri = data;
+                sdvImage.setImageURI(imageUri);
+            }
+        });
+    }
 
     @Nullable
     @Override
@@ -63,31 +104,38 @@ public class SendFragment extends BaseFragment{
 
     @Override
     protected void initializeLayout(){
-        BaseFragment send1 = new Send1Fragment();
-        BaseFragment send2 = new Send2Fragment();
-        BaseFragment send3 = new Send3Fragment();
 
-        sendPagerAdapter = new SendPagerAdapter(getChildFragmentManager());
+        for (final MaterialTextField mtf : mtfs) {
+            mtf.expand();
+            mtf.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mtf.isExpanded()) {
+                        mtf.getEditText().setText("");
+                        mtf.toggle();
+                    } else {
+                        mtf.toggle();
+                    }
+                }
+            });
+        }
 
-        sendPagerAdapter.addPage(send1);
-        sendPagerAdapter.addPage(send2);
-        sendPagerAdapter.addPage(send3);
-
-        vp.setAdapter(sendPagerAdapter);
-        vp.setSwipeLocked(true);
-
-        binderManager.bind("ok_send1", new BinderManager.BinderInterface<Uri>() {
+        mtfs[0].getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void update(Uri data) {
-                imageUri = data;
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                    Toast.makeText(SendFragment.this.getContext(), "good", Toast.LENGTH_SHORT).show();
             }
         });
 
-        binderManager.bind("ok_send2", new BinderManager.BinderInterface<LatLng>() {
-            @Override
-            public void update(LatLng data) {
-                startLatLng = data;
-            }
-        });
+        msCategory.setHint("물품 카테고리");
+        msCategory.setItems("일반", "식품", "냉동품", "깨지기 쉬운것", "전자제품", "취급주의");
+
+        msSize.setHint("물품 크기");
+        msSize.setItems("아주 작음", "작음", "보통", "큼", "아주 큼");
+
+        hideKeyboard();
+
+        svWrapper.fullScroll(View.FOCUS_UP);
     }
 }

@@ -1,45 +1,238 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/f_send_sv_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/colorPrimaryDark"
-        >
+        android:layout_height="match_parent">
 
-        <com.sigran0.sendreceive.views.LockableViewPager
-            android:id="@+id/f_send_lvp"
+        <android.support.constraint.ConstraintLayout
+
+            android:background="@color/colorPrimaryDark"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-        </com.sigran0.sendreceive.views.LockableViewPager>
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:text="배송물품 사진"
+                android:textColor="@color/md_white_1000"
+                android:textSize="12sp"
+                android:alpha="0.5"
+                app:layout_constraintBottom_toTopOf="@+id/f_send_sdv_image"
+                app:layout_constraintStart_toStartOf="@+id/f_send_sdv_image" />
 
-    </LinearLayout>
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/f_send_sdv_image"
+                android:layout_width="225dp"
+                android:layout_height="225dp"
+                android:layout_marginTop="80dp"
+                android:background="@drawable/ripple"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:placeholderImage="@drawable/baseline_photo_white_48" />
 
-    <Button
-        android:id="@+id/f_send_bt_next"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="64dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/ripple"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
-        android:text="다음"
-        android:textColor="@color/md_white_1000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="0dp" />
+            <com.github.florent37.materialtextfield.MaterialTextField
+                android:id="@+id/f_send_mtf_start_pos"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/f_send_sdv_image"
+                app:layout_constraintHorizontal_bias="0.503"
+                app:layout_constraintStart_toStartOf="@+id/f_send_sdv_image"
+                app:layout_constraintTop_toBottomOf="@+id/f_send_sdv_image"
+                app:mtf_backgroundColor="@color/colorPrimaryDark"
+                app:mtf_image="@drawable/baseline_clear_white_48"
+                app:mtf_labelColor="@color/md_white_1000"
+                app:mtf_openKeyboardOnFocus="true">
 
-</android.support.constraint.ConstraintLayout>
+                <EditText
+                    android:id="@+id/f_send_et_start_pos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimaryDark"
+                    android:hint="배송 시작 위치"
+                    android:inputType="textPersonName"
+                    android:lines="1"
+                    android:textColor="@color/md_white_1000"
+                    android:textSize="15sp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    />
+
+            </com.github.florent37.materialtextfield.MaterialTextField>
+
+            <com.github.florent37.materialtextfield.MaterialTextField
+                android:id="@+id/f_send_mtf_end_pos"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/f_send_mtf_start_pos"
+                app:layout_constraintStart_toStartOf="@+id/f_send_mtf_start_pos"
+                app:layout_constraintTop_toBottomOf="@+id/f_send_mtf_start_pos"
+                app:mtf_backgroundColor="@color/colorPrimaryDark"
+                app:mtf_image="@drawable/baseline_clear_white_48"
+                app:mtf_labelColor="@color/md_white_1000"
+                app:mtf_openKeyboardOnFocus="true">
+
+                <EditText
+                    android:id="@+id/f_send_et_end_pos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimaryDark"
+                    android:hint="배송 목적지"
+                    android:inputType="textPersonName"
+                    android:lines="1"
+                    android:textColor="@color/md_white_1000"
+                    android:textSize="15sp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    />
+
+            </com.github.florent37.materialtextfield.MaterialTextField>
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                app:layout_constraintEnd_toEndOf="@+id/f_send_mtf_start_pos"
+                app:layout_constraintStart_toStartOf="@+id/f_send_mtf_start_pos"
+                app:layout_constraintTop_toBottomOf="@+id/f_send_mtf_end_pos">
+
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                    android:id="@+id/f_send_ms_category"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="0.5"
+                    app:ms_background_color="@color/primary">
+
+                </com.jaredrummler.materialspinner.MaterialSpinner>
+
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                    android:id="@+id/f_send_ms_size"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="0.5"
+                    app:ms_background_color="@color/primary">
+
+                </com.jaredrummler.materialspinner.MaterialSpinner>
+            </LinearLayout>
+
+            <com.github.florent37.materialtextfield.MaterialTextField
+                android:id="@+id/f_send_mtf_price"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                app:mtf_backgroundColor="@color/colorPrimaryDark"
+                app:mtf_image="@drawable/baseline_clear_white_48"
+                app:mtf_labelColor="@color/md_white_1000"
+                app:mtf_openKeyboardOnFocus="true"
+                >
+
+                <EditText
+                    android:id="@+id/f_send_et_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimaryDark"
+                    android:hint="물품 가격"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:textColor="@color/md_white_1000"
+                    android:textSize="15sp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    />
+
+            </com.github.florent37.materialtextfield.MaterialTextField>
+
+            <com.github.florent37.materialtextfield.MaterialTextField
+                android:id="@+id/f_send_mtf_estimate_price"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/f_send_mtf_price"
+                app:layout_constraintStart_toStartOf="@+id/f_send_mtf_price"
+                app:layout_constraintTop_toBottomOf="@+id/f_send_mtf_price"
+                app:mtf_backgroundColor="@color/colorPrimaryDark"
+                app:mtf_image="@drawable/baseline_clear_white_48"
+                app:mtf_labelColor="@color/md_white_1000"
+                app:mtf_openKeyboardOnFocus="true">
+
+                <EditText
+                    android:id="@+id/f_send_et_estimate_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimaryDark"
+                    android:hint="예상 배송 가격"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:textColor="@color/md_white_1000"
+                    android:textSize="15sp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    />
+
+            </com.github.florent37.materialtextfield.MaterialTextField>
+
+            <Button
+                android:id="@+id/f_send_bt_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/primary"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:text="배송하기"
+                android:textColor="@color/md_white_1000"
+                app:layout_constraintEnd_toEndOf="@+id/f_send_mtf_estimate_price"
+                app:layout_constraintStart_toStartOf="@+id/f_send_mtf_estimate_price"
+                app:layout_constraintTop_toBottomOf="@+id/f_send_mtf_estimate_price" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/f_send_bt_submit"
+                app:layout_constraintStart_toStartOf="@+id/f_send_bt_submit"
+                app:layout_constraintTop_toBottomOf="@+id/f_send_bt_submit">
+            </View>
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+</FrameLayout>

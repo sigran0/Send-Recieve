@@ -18,6 +18,20 @@ public class ModelManager {
     }
 
     @Data
+    public static class ItemData {
+        String customerUid;
+        String senderUid;
+        String imageUrl;
+        String startPos;
+        String endPos;
+        int price;
+        int estimatePrice;
+        int category;
+        int size;
+        int processState;
+    }
+
+    @Data
     public static class CategoryList {
         List<Category> categoryList;
     }

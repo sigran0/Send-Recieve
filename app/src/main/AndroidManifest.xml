@@ -42,12 +42,17 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+
         <activity android:name=".activities.SigninActivity" />
+
         <activity
             android:theme="@style/Theme.MyTheme"
             android:name=".activities.MainActivity"
-            android:label="@string/title_activity_main">
+            android:label="@string/title_activity_main"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            >
         </activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAMaBRKahsEWE0mL1jE--syFMBBFlhMl8E"
