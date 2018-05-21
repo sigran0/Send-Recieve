@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,8 @@ import butterknife.OnClick;
  */
 
 public class SendFragment extends BaseFragment{
+    
+    public static final String TAG = "fucking";
 
     private final int GALLERY_CODE=1112;
     private Uri imageUri = null;
@@ -58,10 +61,35 @@ public class SendFragment extends BaseFragment{
     void OnClickSubmit() {
         String customerUid = userManager.getUID();
         String senderUid = null;
+
         String startPosition = mtfs[0].getEditText().getText().toString();
+
+        if(startPosition.length() <= 0) {
+            showToast("배송 시작 지점을 입력 해 주세요");
+            return;
+        }
+
         String endPosition = mtfs[1].getEditText().getText().toString();
+
+        if(endPosition.length() <= 0) {
+            showToast("배송 목적 지점을 입력 해 주세요");
+            return;
+        }
+
+        if(mtfs[2].getEditText().getText().toString().length() <= 0) {
+            showToast("물품의 가격을 입력 해 주세요");
+            return;
+        }
+
         int price = Integer.parseInt(mtfs[2].getEditText().getText().toString());
+
+        if(mtfs[3].getEditText().getText().toString().length() <= 0) {
+            showToast("물품의 예상 가격을 입력 해 주세요");
+            return;
+        }
+
         int estimate_price = Integer.parseInt(mtfs[3].getEditText().getText().toString());
+
         int category = msCategory.getSelectedIndex();
         int size = msSize.getSelectedIndex();
         int processState = 0;
@@ -76,6 +104,24 @@ public class SendFragment extends BaseFragment{
         data.setCategory(category);
         data.setSize(size);
         data.setProcessState(processState);
+
+        startProgress();
+
+        databaseManager.saveItemData(data, imageUri, new DatabaseManager.SaveListener() {
+            @Override
+            public void success() {
+                stopProgress();
+                showToast("배송 요청이 완료되었습니다.");
+                finishNoAnimation();
+            }
+
+            @Override
+            public void fail(String message) {
+                stopProgress();
+                Log.d(TAG, "fail: " + message);
+                showToast("오류가 발생했습니다.");
+            }
+        });
     }
 
     @OnClick(R.id.f_send_sdv_image)
@@ -119,14 +165,6 @@ public class SendFragment extends BaseFragment{
                 }
             });
         }
-
-        mtfs[0].getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus)
-                    Toast.makeText(SendFragment.this.getContext(), "good", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         msCategory.setHint("물품 카테고리");
         msCategory.setItems("일반", "식품", "냉동품", "깨지기 쉬운것", "전자제품", "취급주의");

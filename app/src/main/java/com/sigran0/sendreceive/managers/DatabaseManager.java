@@ -1,11 +1,19 @@
 package com.sigran0.sendreceive.managers;
 
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 public class DatabaseManager {
 
@@ -14,12 +22,14 @@ public class DatabaseManager {
 
     private static DatabaseManager instance;
     private FirebaseDatabase database;
+    private FirebaseStorage storage;
     private UserManager userManager;
 
     private DatabaseManager(){
 
         database = FirebaseDatabase.getInstance();
         userManager = UserManager.getInstance();
+        storage = FirebaseStorage.getInstance();
     }
 
     public static DatabaseManager getInstance(){
@@ -30,8 +40,46 @@ public class DatabaseManager {
         return instance;
     }
 
+    public void uploadImage(String key, Uri imageUri, final SaveListener listener) {
+        UploadTask uploadTask = storage
+                                    .getReference("itemImage")
+                                    .child(key)
+                                    .putFile(imageUri);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                e.printStackTrace();
+                listener.fail(e.getMessage());
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                listener.success();
+            }
+        });
+    }
+
     public void saveUserData(ModelManager.UserData data) {
         database.getReference("userData").child(data.getUid()).setValue(data);
+    }
+
+    public void saveItemData(final ModelManager.ItemData data, Uri imageUri, final SaveListener saveListener) {
+        final DatabaseReference ref = database.getReference("itemData").push();
+        final String key = ref.getKey();
+
+        uploadImage(key, imageUri, new SaveListener() {
+            @Override
+            public void success() {
+                data.setImageUrl(key);
+                ref.setValue(data);
+                saveListener.success();
+            }
+
+            @Override
+            public void fail(String message) {
+                fail(message);
+            }
+        });
     }
 
     public void getUserData(final DataReceiveListener<ModelManager.UserData> listener) {
@@ -110,6 +158,11 @@ public class DatabaseManager {
 //            }
 //        });
 //    }
+
+    public interface SaveListener {
+        public void success();
+        public void fail(String message);
+    }
 
     public interface DataReceiveListener<T>{
         public void onReceive(T data);

@@ -53,6 +53,14 @@
             >
         </activity>
 
+        <activity
+            android:name=".activities.SubActivity"
+            android:theme="@style/Theme.MyTheme"
+            android:label="SubActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            >
+        </activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAMaBRKahsEWE0mL1jE--syFMBBFlhMl8E"

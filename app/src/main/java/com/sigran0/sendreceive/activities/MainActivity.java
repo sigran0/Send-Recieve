@@ -11,6 +11,7 @@ import com.sigran0.sendreceive.R;
 import com.sigran0.sendreceive.fragments.BaseFragment;
 import com.sigran0.sendreceive.fragments.MyInfoFragment;
 import com.sigran0.sendreceive.fragments.SendFragment;
+import com.sigran0.sendreceive.fragments.SendStartFragment;
 import com.sigran0.sendreceive.managers.DatabaseManager;
 import com.sigran0.sendreceive.managers.UserManager;
 import com.sigran0.sendreceive.pagerAdapter.MainPagerAdapter;
@@ -61,7 +62,7 @@ public class MainActivity extends BaseActivity {
     protected void initializeLayout(){
         navigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        BaseFragment sendFragment = new SendFragment();
+        BaseFragment sendFragment = new SendStartFragment();
         BaseFragment myInfoFragment = new MyInfoFragment();
 
         mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());

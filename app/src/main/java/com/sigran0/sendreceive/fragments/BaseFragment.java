@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.sigran0.sendreceive.activities.BaseActivity;
 import com.sigran0.sendreceive.dialogs.SimpleProgressDialog;
 import com.sigran0.sendreceive.managers.BinderManager;
+import com.sigran0.sendreceive.managers.DatabaseManager;
 import com.sigran0.sendreceive.managers.UserManager;
 import com.sigran0.sendreceive.tools.RecycleUtils;
 
@@ -36,6 +37,7 @@ public abstract class BaseFragment extends Fragment implements Parcelable{
     private Unbinder unbinder;
     protected BinderManager binderManager = BinderManager.getInstance();
     protected UserManager userManager = UserManager.getInstance();
+    protected DatabaseManager databaseManager = DatabaseManager.getInstance();
 
     @Nullable
     @Override
