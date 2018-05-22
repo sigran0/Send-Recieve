@@ -46,12 +46,30 @@ public class ItemListHolder extends BaseHolder<ModelManager.ItemData> {
     @Override
     public void setData(ModelManager.ItemData data) {
         this.data = data;
+        atvs[1].setText(data.getItemName());
 
         if(this.type == TYPE.CLIENT) {
-            atvs[1].setText(data.getItemName());
-
+            if(data.getProcessState() == ModelManager.ItemState.NO_ONE_ACCEPT.ordinal()) {
+                atvs[3].setText("");
+                atvs[5].setText("아직 처리되지 않았습니다.");
+            } else if(data.getProcessState() == ModelManager.ItemState.DELIVERING.ordinal()) {
+                atvs[3].setText(data.getDelivererName());
+                atvs[5].setText("배달중 입니다.");
+            } else if(data.getProcessState() == ModelManager.ItemState.COMPLETE.ordinal()) {
+                atvs[3].setText(data.getDelivererName());
+                atvs[5].setText("배달 완료");
+            }
         } else {
-
+            if(data.getProcessState() == ModelManager.ItemState.NO_ONE_ACCEPT.ordinal()) {
+                atvs[3].setText("");
+                atvs[5].setText("아직 처리되지 않았습니다.");
+            } else if(data.getProcessState() == ModelManager.ItemState.DELIVERING.ordinal()) {
+                atvs[3].setText(data.getDelivererName());
+                atvs[5].setText("배달중 입니다.");
+            } else if(data.getProcessState() == ModelManager.ItemState.COMPLETE.ordinal()) {
+                atvs[3].setText(data.getDelivererName());
+                atvs[5].setText("배달 완료");
+            }
         }
     }
 }

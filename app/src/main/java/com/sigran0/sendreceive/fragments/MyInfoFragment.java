@@ -14,10 +14,12 @@ import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.sigran0.sendreceive.R;
+import com.sigran0.sendreceive.activities.SubActivity;
 import com.sigran0.sendreceive.interfaces.DataListner;
 import com.sigran0.sendreceive.managers.DatabaseManager;
 import com.sigran0.sendreceive.managers.ModelManager;
 import com.sigran0.sendreceive.managers.StaticDataManager;
+import com.sigran0.sendreceive.recycler.holder.ItemListHolder;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -49,8 +51,11 @@ public class MyInfoFragment extends BaseFragment {
             @Override
             public void success(ModelManager.ItemDataList data) {
                 stopProgress();
-                Log.d(TAG, "success: fucking " + data);
-                Log.d(TAG, "success: " + data.getItemDataList().toString());
+                ItemListFragment fragment = new ItemListFragment();
+                fragment.setType(ItemListHolder.TYPE.CLIENT);
+                fragment.setData(data.getItemDataList());
+
+                MyInfoFragment.this.getBaseActivity().startActivityWithFragment(SubActivity.class, fragment);
             }
 
             @Override

@@ -19,6 +19,12 @@ public class ModelManager {
         String birthDate;
     }
 
+    public enum ItemState {
+        NO_ONE_ACCEPT,
+        DELIVERING,
+        COMPLETE
+    }
+
     @Data
     public static class ItemData {
         String itemName;
