@@ -15,9 +15,11 @@ import com.github.florent37.materialtextfield.MaterialTextField;
 import com.google.android.gms.maps.model.LatLng;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.sigran0.sendreceive.R;
+import com.sigran0.sendreceive.interfaces.DataListner;
 import com.sigran0.sendreceive.managers.BinderManager;
 import com.sigran0.sendreceive.managers.DatabaseManager;
 import com.sigran0.sendreceive.managers.ModelManager;
+import com.sigran0.sendreceive.managers.StaticDataManager;
 import com.sigran0.sendreceive.pagerAdapter.SendPagerAdapter;
 
 import butterknife.BindView;
@@ -53,10 +55,14 @@ public class SendFragment extends BaseFragment{
     @BindView(R.id.f_send_sv_wrapper)
     ScrollView svWrapper;
 
+    StaticDataManager sdm = StaticDataManager.getInstance();
+
     @OnClick(R.id.f_send_bt_submit)
     void OnClickSubmit() {
-        String customerUid = userManager.getUID();
-        String senderUid = null;
+        String customerUid = sdm.getUserData().getUid();
+        String customeName = sdm.getUserData().getUsername();
+        String senderUid = "";
+        String senderName= "";
 
         String startPosition = mtfs[0].getEditText().getText().toString();
 
@@ -95,14 +101,19 @@ public class SendFragment extends BaseFragment{
         int category = msCategory.getSelectedIndex();
         int size = msSize.getSelectedIndex();
         int processState = 0;
+        long timestamp = System.currentTimeMillis() / 1000;
+
 
         ModelManager.ItemData data = new ModelManager.ItemData();
+        data.setTimestamp(timestamp);
+        data.setItemName(name);
         data.setCustomerUid(customerUid);
-        data.setSenderUid(senderUid);
+        data.setCustomerName(customeName);
+        data.setDelivererUid(senderUid);
+        data.setDelivererName(senderName);
         data.setStartPos(startPosition);
         data.setEndPos(endPosition);
         data.setPrice(price);
-        data.setName(name);
         data.setEstimatePrice(estimate_price);
         data.setCategory(category);
         data.setSize(size);
@@ -110,7 +121,7 @@ public class SendFragment extends BaseFragment{
 
         startProgress();
 
-        databaseManager.saveItemData(data, imageUri, new DatabaseManager.DataSendListener() {
+        databaseManager.saveItemData(data, imageUri, new DataListner.DataSendListener() {
             @Override
             public void success() {
                 stopProgress();

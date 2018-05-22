@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.florent37.materialtextfield.MaterialTextField;
 import com.sigran0.sendreceive.R;
+import com.sigran0.sendreceive.interfaces.DataListner;
 import com.sigran0.sendreceive.managers.BinderManager;
 import com.sigran0.sendreceive.managers.DatabaseManager;
 import com.sigran0.sendreceive.managers.ModelManager;
@@ -118,7 +119,7 @@ public class SigninActivity extends BaseActivity {
         userData.setUid(uid);
         userData.setType(check);
 
-        dbManager.saveUserData(userData, imageUri, new DatabaseManager.DataSendListener() {
+        dbManager.saveUserData(userData, imageUri, new DataListner.DataSendListener() {
             @Override
             public void success() {
                 stopProgress();

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.sigran0.sendreceive.R;
+import com.sigran0.sendreceive.interfaces.DataListner;
 import com.sigran0.sendreceive.interfaces.SigninCallback;
 import com.sigran0.sendreceive.managers.DatabaseManager;
 import com.sigran0.sendreceive.managers.ModelManager;
@@ -87,7 +88,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void loadUserdata(){
-        databaseManager.getUserData(new DatabaseManager.DataReceiveListener<ModelManager.UserData>() {
+        databaseManager.getUserData(new DataListner.DataReceiveListener<ModelManager.UserData>() {
             @Override
             public void success(ModelManager.UserData data) {
                 if(data == null) {

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@drawable/ripple"
+    android:clickable="true"
+    android:focusable="true"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        >
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="3dp"
+            >
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/h_item_list_title_item_name"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:alpha="0.65"
+                android:gravity="center_vertical"
+                android:text="상품 이름"
+                android:textColor="@color/md_white_1000"
+                android:textSize="12sp"
+                android:singleLine="true"
+                android:maxLines="1"
+                app:minTextSize="8sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/h_item_list_item_name"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="에비츄츄츄츄츄츄츄"
+                android:textColor="@color/md_white_1000"
+                android:textSize="20sp"
+                android:singleLine="true"
+                android:maxLines="1"
+                app:minTextSize="8sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/h_item_list_title_item_name"
+                app:layout_constraintStart_toStartOf="@+id/h_item_list_title_item_name"
+                app:layout_constraintTop_toBottomOf="@+id/h_item_list_title_item_name" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            >
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/h_item_list_title_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:alpha="0.65"
+                android:gravity="center_vertical"
+                android:text="배송자 정보"
+                android:textColor="@color/md_white_1000"
+                android:textSize="12sp"
+                android:singleLine="true"
+                android:maxLines="1"
+                app:minTextSize="8sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/h_item_list_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="에비츄츄츄츄츄츄츄"
+                android:textColor="@color/md_white_1000"
+                android:textSize="20sp"
+                android:singleLine="true"
+                android:maxLines="1"
+                app:minTextSize="8sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/h_item_list_title_user_name"
+                app:layout_constraintStart_toStartOf="@+id/h_item_list_title_user_name"
+                app:layout_constraintTop_toBottomOf="@+id/h_item_list_title_user_name" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="6dp"
+            >
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/h_item_list_title_info"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:alpha="0.65"
+                android:gravity="center_vertical"
+                android:text="상태"
+                android:textColor="@color/md_white_1000"
+                android:textSize="12sp"
+                android:singleLine="true"
+                android:maxLines="1"
+                app:minTextSize="8sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/h_item_list_info"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="에비츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄"
+                android:textColor="@color/md_white_1000"
+                android:textSize="20sp"
+                android:singleLine="true"
+                android:maxLines="1"
+                app:minTextSize="8sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/h_item_list_title_info"
+                app:layout_constraintStart_toStartOf="@+id/h_item_list_title_info"
+                app:layout_constraintTop_toBottomOf="@+id/h_item_list_title_info" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

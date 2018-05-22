@@ -12,6 +12,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.UploadTask;
+import com.sigran0.sendreceive.interfaces.DataListner;
 
 public class DatabaseManager {
 
@@ -38,7 +39,7 @@ public class DatabaseManager {
         return instance;
     }
 
-    public void uploadImage(String key, Uri imageUri, final DataSendListener listener) {
+    public void uploadImage(String key, Uri imageUri, final DataListner.DataSendListener listener) {
         UploadTask uploadTask = storage
                                     .getReference("itemImage")
                                     .child(key)
@@ -58,7 +59,7 @@ public class DatabaseManager {
     }
 
 
-    public void downloadImage(String key, final DataReceiveListener<Uri> listener) {
+    public void downloadImage(String key, final DataListner.DataReceiveListener<Uri> listener) {
         storage.getReference("itemImage")
                 .child(key)
                 .getDownloadUrl()
@@ -77,14 +78,14 @@ public class DatabaseManager {
                 });
     }
 
-    public void saveUserData(final ModelManager.UserData data, Uri imageUri, final DataSendListener dataSendListener) {
+    public void saveUserData(final ModelManager.UserData data, Uri imageUri, final DataListner.DataSendListener dataSendListener) {
         final DatabaseReference ref = database
                                         .getReference("userData")
                                         .child(data.getUid());
 
         final String key = ref.getKey();
 
-        uploadImage(key, imageUri, new DataSendListener() {
+        uploadImage(key, imageUri, new DataListner.DataSendListener() {
             @Override
             public void success() {
                 data.setImageUrl(key);
@@ -99,11 +100,11 @@ public class DatabaseManager {
         });
     }
 
-    public void saveItemData(final ModelManager.ItemData data, Uri imageUri, final DataSendListener dataSendListener) {
+    public void saveItemData(final ModelManager.ItemData data, Uri imageUri, final DataListner.DataSendListener dataSendListener) {
         final DatabaseReference ref = database.getReference("itemData").push();
         final String key = ref.getKey();
 
-        uploadImage(key, imageUri, new DataSendListener() {
+        uploadImage(key, imageUri, new DataListner.DataSendListener() {
             @Override
             public void success() {
                 data.setImageUrl(key);
@@ -118,7 +119,7 @@ public class DatabaseManager {
         });
     }
 
-    public void getUserData(final DataReceiveListener<ModelManager.UserData> listener) {
+    public void getUserData(final DataListner.DataReceiveListener<ModelManager.UserData> listener) {
 
         final String uid = userManager.getUID();
 
@@ -140,18 +141,25 @@ public class DatabaseManager {
                 });
     }
 
-    public void getMySendListData(final DataReceiveListener<ModelManager.ItemDataList> listener) {
+    public void getMySendListData(final DataListner.DataReceiveListener<ModelManager.ItemDataList> listener) {
 
         final String uid = userManager.getUID();
 
         database.getReference("itemData")
-                .equalTo("customerUid", uid)
+                .orderByChild("customerUid")
+                .equalTo(uid)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        ModelManager.ItemDataList
-                                result = dataSnapshot
-                                .getValue(ModelManager.ItemDataList.class);
+
+                        ModelManager.ItemDataList result = new ModelManager.ItemDataList();
+
+                        for(DataSnapshot item : dataSnapshot.getChildren()) {
+                            ModelManager.ItemData temp = item.getValue(ModelManager.ItemData.class);
+                            result.getItemDataList().add(temp);
+                        }
+
+                        result.setSize(result.getItemDataList().size());
                         listener.success(result);
                     }
 
@@ -162,15 +170,5 @@ public class DatabaseManager {
                     }
                 });
 
-    }
-
-    public interface DataSendListener {
-        public void success();
-        public void fail(String message);
-    }
-
-    public interface DataReceiveListener<T>{
-        public void success(T data);
-        public void fail(String message);
     }
 }

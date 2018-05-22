@@ -14,8 +14,10 @@ import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.sigran0.sendreceive.R;
+import com.sigran0.sendreceive.interfaces.DataListner;
 import com.sigran0.sendreceive.managers.DatabaseManager;
 import com.sigran0.sendreceive.managers.ModelManager;
+import com.sigran0.sendreceive.managers.StaticDataManager;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -37,11 +39,13 @@ public class MyInfoFragment extends BaseFragment {
     @BindView(R.id.f_my_info_sdv_profile)
     SimpleDraweeView sdvProfile;
 
+    StaticDataManager sdm = StaticDataManager.getInstance();
+
     @OnClick(R.id.f_my_info_bt_list)
     void OnClickList(){
         startProgress();
 
-        databaseManager.getMySendListData(new DatabaseManager.DataReceiveListener<ModelManager.ItemDataList>() {
+        databaseManager.getMySendListData(new DataListner.DataReceiveListener<ModelManager.ItemDataList>() {
             @Override
             public void success(ModelManager.ItemDataList data) {
                 stopProgress();
@@ -75,11 +79,11 @@ public class MyInfoFragment extends BaseFragment {
     protected void initializeLayout(){
         startProgress();
 
-        databaseManager
-                .getUserData(new DatabaseManager
-                        .DataReceiveListener<ModelManager.UserData>() {
+        sdm.initialize(new DataListner.DataInitializeListener() {
             @Override
-            public void success(ModelManager.UserData data) {
+            public void success() {
+                ModelManager.UserData data = sdm.getUserData();
+
                 final String username = data.getUsername();
                 final String usertype;
 
@@ -90,9 +94,7 @@ public class MyInfoFragment extends BaseFragment {
 
                 String imageId = data.getImageUrl();
 
-                Log.d(TAG, "success: fucking " + imageId + " " + username);
-
-                databaseManager.downloadImage(imageId, new DatabaseManager.DataReceiveListener<Uri>() {
+                databaseManager.downloadImage(imageId, new DataListner.DataReceiveListener<Uri>() {
                     @Override
                     public void success(Uri data) {
                         sdvProfile.setImageURI(data);

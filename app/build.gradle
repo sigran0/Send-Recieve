@@ -65,6 +65,7 @@ dependencies {
     compile 'com.github.rey5137:material:1.2.4'
     compile 'com.wdullaer:materialdatetimepicker:3.6.0'
     compile 'com.jaredrummler:material-spinner:1.2.5'
+    compile 'me.grantland:autofittextview:0.2.+'
 
     implementation 'com.github.florent37:materialtextfield:1.0.7'
 

@@ -1,5 +1,6 @@
 package com.sigran0.sendreceive.managers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -8,7 +9,6 @@ import lombok.Setter;
 public class ModelManager {
 
     @Data
-    @Setter
     public static class UserData {
         String uid;
         String email;
@@ -21,12 +21,15 @@ public class ModelManager {
 
     @Data
     public static class ItemData {
+        String itemName;
         String customerUid;
-        String senderUid;
-        String name;
+        String customerName;
+        String delivererUid;
+        String delivererName;
         String imageUrl;
         String startPos;
         String endPos;
+        long timestamp;
         int price;
         int estimatePrice;
         int category;
@@ -35,9 +38,9 @@ public class ModelManager {
     }
 
     @Data
-    @Setter
     public static class ItemDataList {
-        List<ItemData> itemDataList;
+        int size = 0;
+        List<ItemData> itemDataList = new ArrayList<>();
     }
 
     @Data
