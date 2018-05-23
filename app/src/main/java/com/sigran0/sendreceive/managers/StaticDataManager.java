@@ -9,6 +9,12 @@ public class StaticDataManager {
     ModelManager.UserData userData;
     private DatabaseManager databaseManager;
     private boolean isInitialized = false;
+    private String[] categoryList = {
+            "일반", "식품", "냉동품", "깨지기 쉬운것", "전자제품", "취급주의", "생물"
+    };
+    private String[] sizeList = {
+            "아주 작음", "작음", "보통", "큼", "아주 큼"
+    };
 
     private StaticDataManager() {
         databaseManager = DatabaseManager.getInstance();
@@ -43,5 +49,13 @@ public class StaticDataManager {
         if(userData == null)
             throw new NullPointerException("userData object is null");
         return userData;
+    }
+
+    public String[] getCategoryList(){
+        return categoryList;
+    }
+
+    public String[] getSizeList(){
+        return sizeList;
     }
 }

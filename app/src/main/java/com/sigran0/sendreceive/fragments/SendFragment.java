@@ -179,10 +179,10 @@ public class SendFragment extends BaseFragment{
         }
 
         msCategory.setHint("물품 카테고리");
-        msCategory.setItems("일반", "식품", "냉동품", "깨지기 쉬운것", "전자제품", "취급주의", "생물");
+        msCategory.setItems(StaticDataManager.getInstance().getCategoryList());
 
         msSize.setHint("물품 크기");
-        msSize.setItems("아주 작음", "작음", "보통", "큼", "아주 큼");
+        msSize.setItems(StaticDataManager.getInstance().getSizeList());
 
         hideKeyboard();
 

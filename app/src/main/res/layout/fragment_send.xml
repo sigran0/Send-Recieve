@@ -39,6 +39,8 @@
                 android:background="@drawable/ripple"
                 android:clickable="true"
                 android:focusable="true"
+                app:roundedCornerRadius="5dp"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

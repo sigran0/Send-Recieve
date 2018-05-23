@@ -13,6 +13,7 @@ import com.sigran0.sendreceive.R;
 import com.sigran0.sendreceive.interfaces.DataListner;
 import com.sigran0.sendreceive.managers.DatabaseManager;
 import com.sigran0.sendreceive.managers.ModelManager;
+import com.sigran0.sendreceive.managers.StaticDataManager;
 import com.sigran0.sendreceive.recycler.adapter.ItemListAdapter;
 import com.sigran0.sendreceive.recycler.holder.ItemListHolder;
 
@@ -66,8 +67,8 @@ public class ItemInfoActivity extends BaseActivity {
                 atvs[0].setText(data.getItemName());
                 atvs[1].setText(data.getStartPos());
                 atvs[2].setText(data.getEndPos());
-                atvs[3].setText(data.getCategory() + "");
-                atvs[4].setText(data.getSize() + "");
+                atvs[3].setText(StaticDataManager.getInstance().getCategoryList()[data.getCategory()]);
+                atvs[4].setText(StaticDataManager.getInstance().getSizeList()[data.getSize()]);
 
                 sdv.setImageURI(uri);
 
