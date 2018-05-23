@@ -1,5 +1,7 @@
 package com.sigran0.sendreceive.recycler.holder;
 
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.sigran0.sendreceive.R;
@@ -7,6 +9,7 @@ import com.sigran0.sendreceive.managers.ModelManager;
 
 import butterknife.BindViews;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import me.grantland.widget.AutofitTextView;
 
 public class ItemListHolder extends BaseHolder<ModelManager.ItemData> {
@@ -15,6 +18,8 @@ public class ItemListHolder extends BaseHolder<ModelManager.ItemData> {
         CLIENT,
         DELIVERER
     }
+
+    public static final String TAG = "fucking";
 
     @BindViews({
         R.id.h_item_list_title_item_name, R.id.h_item_list_item_name,
@@ -46,6 +51,7 @@ public class ItemListHolder extends BaseHolder<ModelManager.ItemData> {
     @Override
     public void setData(ModelManager.ItemData data) {
         this.data = data;
+        Log.d(TAG, "setData asdasd: ");
         atvs[1].setText(data.getItemName());
 
         if(this.type == TYPE.CLIENT) {

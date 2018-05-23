@@ -1,7 +1,9 @@
 package com.sigran0.sendreceive.recycler.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +15,7 @@ import com.sigran0.sendreceive.recycler.holder.ItemListHolder;
 
 import java.util.List;
 
-public class ItemListAdapter extends RecyclerView.Adapter<BaseHolder>{
+public class ItemListAdapter extends RecyclerView.Adapter<ItemListHolder>{
 
     private Context context;
     private ItemListHolder.TYPE type;
@@ -30,22 +32,23 @@ public class ItemListAdapter extends RecyclerView.Adapter<BaseHolder>{
     }
 
     @Override
-    public BaseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ItemListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.holder_item_list, parent, false);
         ItemListHolder holder = new ItemListHolder(view, type);
-
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(final BaseHolder holder, final int pos){
+    @NonNull
+    public void onBindViewHolder(final ItemListHolder holder, final int pos){
         holder.setData(data.getItemDataList().get(pos));
     }
 
     @Override
     public int getItemCount() {
-        if(data != null)
+        if(data != null) {
             return data.getSize();
+        }
         return 0;
     }
 }

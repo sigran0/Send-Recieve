@@ -47,18 +47,19 @@
             android:name=".activities.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.MyTheme"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".activities.SubActivity"
             android:label="SubActivity"
             android:theme="@style/Theme.MyTheme"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAMaBRKahsEWE0mL1jE--syFMBBFlhMl8E" />
 
-        <activity android:name=".activities.ListActivity"></activity>
+        <activity android:name=".activities.ListActivity" />
+        <activity android:name=".activities.ItemInfoActivity"></activity>
     </application>
 
 </manifest>

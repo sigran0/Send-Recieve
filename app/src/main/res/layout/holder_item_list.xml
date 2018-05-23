@@ -2,8 +2,9 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/h_item_list_cl_root"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="80dp"
     android:background="@drawable/ripple"
     android:clickable="true"
     android:focusable="true"
@@ -27,9 +28,9 @@
             <me.grantland.widget.AutofitTextView
                 android:id="@+id/h_item_list_title_item_name"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="30dp"
                 android:alpha="0.65"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:text="상품 이름"
                 android:textColor="@color/md_white_1000"
                 android:textSize="12sp"
@@ -43,7 +44,7 @@
             <me.grantland.widget.AutofitTextView
                 android:id="@+id/h_item_list_item_name"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="50dp"
                 android:gravity="center"
                 android:text="에비츄츄츄츄츄츄츄"
                 android:textColor="@color/md_white_1000"
@@ -69,9 +70,9 @@
             <me.grantland.widget.AutofitTextView
                 android:id="@+id/h_item_list_title_user_name"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="30dp"
                 android:alpha="0.65"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:text="배송자 정보"
                 android:textColor="@color/md_white_1000"
                 android:textSize="12sp"
@@ -85,7 +86,7 @@
             <me.grantland.widget.AutofitTextView
                 android:id="@+id/h_item_list_user_name"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="50dp"
                 android:gravity="center"
                 android:text="에비츄츄츄츄츄츄츄"
                 android:textColor="@color/md_white_1000"
@@ -111,9 +112,9 @@
             <me.grantland.widget.AutofitTextView
                 android:id="@+id/h_item_list_title_info"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="30dp"
                 android:alpha="0.65"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:text="상태"
                 android:textColor="@color/md_white_1000"
                 android:textSize="12sp"
@@ -127,7 +128,7 @@
             <me.grantland.widget.AutofitTextView
                 android:id="@+id/h_item_list_info"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="50dp"
                 android:gravity="center"
                 android:text="에비츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄츄"
                 android:textColor="@color/md_white_1000"

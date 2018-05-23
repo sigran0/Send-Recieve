@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context="com.sigran0.sendreceive.activities.ItemInfoActivity"
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/a_item_info_sdv"
+                android:layout_width="225dp"
+                android:layout_height="225dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="64dp"
+                android:background="@drawable/ripple"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:placeholderImage="@drawable/baseline_photo_white_48" />
+
+            <LinearLayout
+                android:id="@+id/a_item_info_ll_name"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="@+id/a_item_info_sdv"
+                app:layout_constraintStart_toStartOf="@+id/a_item_info_sdv"
+                app:layout_constraintTop_toBottomOf="@+id/a_item_info_sdv">
+
+                <me.grantland.widget.AutofitTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:alpha="0.65"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="물품 이름"
+                    android:textColor="@color/md_white_1000"
+                    android:textSize="20sp"
+                    app:minTextSize="8sp" />
+
+                <me.grantland.widget.AutofitTextView
+                    android:id="@+id/a_item_info_atv_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="에비츄"
+                    android:textColor="@color/md_white_1000"
+                    android:textSize="20sp"
+                    app:minTextSize="8sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/a_item_info_ll_pos"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                app:layout_constraintEnd_toEndOf="@+id/a_item_info_ll_name"
+                app:layout_constraintStart_toStartOf="@+id/a_item_info_ll_name"
+                app:layout_constraintTop_toBottomOf="@+id/a_item_info_ll_name">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <me.grantland.widget.AutofitTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:alpha="0.65"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="배송 시작 지점"
+                        android:textColor="@color/md_white_1000"
+                        android:textSize="20sp"
+                        app:minTextSize="8sp" />
+
+                    <me.grantland.widget.AutofitTextView
+                        android:id="@+id/a_item_info_atv_src"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="부산"
+                        android:textColor="@color/md_white_1000"
+                        android:textSize="20sp"
+                        app:minTextSize="8sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <me.grantland.widget.AutofitTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:alpha="0.65"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="배송 도착 지점"
+                        android:textColor="@color/md_white_1000"
+                        android:textSize="20sp"
+                        app:minTextSize="8sp" />
+
+                    <me.grantland.widget.AutofitTextView
+                        android:id="@+id/a_item_info_atv_dest"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="서울"
+                        android:textColor="@color/md_white_1000"
+                        android:textSize="20sp"
+                        app:minTextSize="8sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/a_item_info_ll_item_info"
+                android:layout_width="0dp"
+                android:layout_height="81dp"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                app:layout_constraintEnd_toEndOf="@+id/a_item_info_ll_pos"
+                app:layout_constraintStart_toStartOf="@+id/a_item_info_ll_pos"
+                app:layout_constraintTop_toBottomOf="@+id/a_item_info_ll_pos">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <me.grantland.widget.AutofitTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:alpha="0.65"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="물품 종류"
+                        android:textColor="@color/md_white_1000"
+                        android:textSize="20sp"
+                        app:minTextSize="8sp" />
+
+                    <me.grantland.widget.AutofitTextView
+                        android:id="@+id/a_item_info_atv_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="생물"
+                        android:textColor="@color/md_white_1000"
+                        android:textSize="20sp"
+                        app:minTextSize="8sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <me.grantland.widget.AutofitTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:alpha="0.65"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="물품 크기"
+                        android:textColor="@color/md_white_1000"
+                        android:textSize="20sp"
+                        app:minTextSize="8sp" />
+
+                    <me.grantland.widget.AutofitTextView
+                        android:id="@+id/a_item_info_atv_size"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="작음"
+                        android:textColor="@color/md_white_1000"
+                        android:textSize="20sp"
+                        app:minTextSize="8sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/a_item_info_bt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="64dp"
+                android:layout_marginTop="16dp"
+                android:text="삭제하기"
+                android:textColor="@color/md_white_1000"
+                android:background="@drawable/ripple"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/a_item_info_ll_item_info"
+                app:layout_constraintStart_toStartOf="@+id/a_item_info_ll_item_info"
+                app:layout_constraintTop_toBottomOf="@+id/a_item_info_ll_item_info" />
+
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+</FrameLayout>

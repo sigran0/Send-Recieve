@@ -3,7 +3,9 @@ package com.sigran0.sendreceive.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.sigran0.sendreceive.R;
 import com.sigran0.sendreceive.fragments.BaseFragment;
@@ -22,16 +24,15 @@ public class ListActivity extends BaseActivity {
     RecyclerView rv;
 
     ItemListAdapter adapter;
-    ModelManager.ItemData data;
+    LinearLayoutManager layoutManager;
+
+    ModelManager.ItemDataList data;
     ItemListHolder.TYPE type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list);
 
-        data = (ModelManager.ItemData) getIntent().getSerializableExtra("data");
-        type = (ItemListHolder.TYPE) getIntent().getSerializableExtra("type");
     }
 
     @Override
@@ -41,7 +42,16 @@ public class ListActivity extends BaseActivity {
 
     @Override
     protected void initializeLayout(){
+        data = (ModelManager.ItemDataList) getIntent().getSerializableExtra("data");
+        type = (ItemListHolder.TYPE) getIntent().getSerializableExtra("type");
+
+        layoutManager = new LinearLayoutManager(this);
         adapter = new ItemListAdapter(this, type);
+
+        Log.d("fucking", "initializeLayout: " + data.getItemDataList().size());
+
         rv.setAdapter(adapter);
+        rv.setLayoutManager(layoutManager);
+        adapter.setData(data);
     }
 }
