@@ -63,7 +63,6 @@ public class SigninActivity extends BaseActivity {
 
     @OnClick(R.id.a_signin_bt_signin)
     void onClickSignin(){
-        startProgress(SigninActivity.this);
         String username = materialTextFields[2].getEditText().getText().toString();
         String email = materialTextFields[0].getEditText().getText().toString();
         String phonenumber = materialTextFields[1].getEditText().getText().toString();
@@ -118,6 +117,8 @@ public class SigninActivity extends BaseActivity {
         userData.setBirthDate(birthDate);
         userData.setUid(uid);
         userData.setType(check);
+
+        startProgress(SigninActivity.this);
 
         dbManager.saveUserData(userData, imageUri, new DataListner.DataSendListener() {
             @Override

@@ -62,7 +62,6 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:text="에비츄"
                     android:textColor="@color/md_white_1000"
                     android:textSize="20sp"
                     app:minTextSize="8sp" />
@@ -105,7 +104,6 @@
                         android:gravity="center"
                         android:maxLines="1"
                         android:singleLine="true"
-                        android:text="부산"
                         android:textColor="@color/md_white_1000"
                         android:textSize="20sp"
                         app:minTextSize="8sp" />
@@ -137,7 +135,6 @@
                         android:gravity="center"
                         android:maxLines="1"
                         android:singleLine="true"
-                        android:text="서울"
                         android:textColor="@color/md_white_1000"
                         android:textSize="20sp"
                         app:minTextSize="8sp" />
@@ -181,7 +178,6 @@
                         android:gravity="center"
                         android:maxLines="1"
                         android:singleLine="true"
-                        android:text="생물"
                         android:textColor="@color/md_white_1000"
                         android:textSize="20sp"
                         app:minTextSize="8sp" />
@@ -213,7 +209,6 @@
                         android:gravity="center"
                         android:maxLines="1"
                         android:singleLine="true"
-                        android:text="작음"
                         android:textColor="@color/md_white_1000"
                         android:textSize="20sp"
                         app:minTextSize="8sp" />

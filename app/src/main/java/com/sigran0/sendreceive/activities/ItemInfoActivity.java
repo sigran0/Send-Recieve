@@ -31,6 +31,12 @@ public class ItemInfoActivity extends BaseActivity {
     @BindView(R.id.a_item_info_bt)
     Button button;
 
+    @OnClick(R.id.a_item_info_bt)
+    void OnClick(){
+        DatabaseManager.getInstance().deleteItemData(data.getImageUrl());
+        finish();
+    }
+
     @BindView(R.id.a_item_info_sdv)
     SimpleDraweeView sdv;
 
@@ -50,6 +56,8 @@ public class ItemInfoActivity extends BaseActivity {
     @Override
     protected void initializeLayout(){
 
+        startProgress(ItemInfoActivity.this);
+
         data = (ModelManager.ItemData) getIntent().getSerializableExtra("data");
 
         DatabaseManager.getInstance().downloadImage(data.getImageUrl(), new DataListner.DataReceiveListener<Uri>() {
@@ -58,10 +66,12 @@ public class ItemInfoActivity extends BaseActivity {
                 atvs[0].setText(data.getItemName());
                 atvs[1].setText(data.getStartPos());
                 atvs[2].setText(data.getEndPos());
-                atvs[3].setText(data.getCategory());
-                atvs[4].setText(data.getSize());
+                atvs[3].setText(data.getCategory() + "");
+                atvs[4].setText(data.getSize() + "");
 
                 sdv.setImageURI(uri);
+
+                stopProgress();
             }
 
             @Override

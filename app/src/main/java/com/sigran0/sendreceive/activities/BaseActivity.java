@@ -47,8 +47,8 @@ public abstract class BaseActivity extends FragmentActivity{
         }
 
         ButterKnife.bind(this);
-        setStartActivityAnimation(R.anim.slide_right_in, R.anim.slide_right_out);
-        setFinishActivityAnimation(R.anim.slide_left_in, R.anim.slide_left_out);
+//        setStartActivityAnimation(R.anim.slide_right_in, R.anim.slide_right_out);
+//        setFinishActivityAnimation(R.anim.slide_left_in, R.anim.slide_left_out);
 
         initializeLayout();
 
@@ -138,8 +138,6 @@ public abstract class BaseActivity extends FragmentActivity{
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == RESULT_OK) {
-
-            Log.d("fucking", "onActivityResult: " + requestCode);
 
             switch (requestCode) {
                 case GALLERY_CODE:

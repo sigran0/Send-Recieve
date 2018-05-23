@@ -47,27 +47,10 @@ public class MyInfoFragment extends BaseFragment {
 
     @OnClick(R.id.f_my_info_bt_list)
     void OnClickList(){
-        startProgress();
 
-        databaseManager.getMySendListData(new DataListner.DataReceiveListener<ModelManager.ItemDataList>() {
-            @Override
-            public void success(ModelManager.ItemDataList data) {
-                stopProgress();
-
-                Intent intent = new Intent(MyInfoFragment.this.getActivity(), ListActivity.class);
-                intent.putExtra("type", ItemListHolder.TYPE.CLIENT);
-                intent.putExtra("data", data);
-
-                startActivity(intent);
-            }
-
-            @Override
-            public void fail(String message) {
-                stopProgress();
-                showToast("원인불명의 오류로 불러오기를 실패했습니다 ㅜ_ㅜ.\n다시 시도해 주세요.");
-                Log.d(TAG, "fail: fucking " + message);
-            }
-        });
+        Intent intent = new Intent(MyInfoFragment.this.getActivity(), ListActivity.class);
+        intent.putExtra("type", ItemListHolder.TYPE.CLIENT);
+        startActivity(intent);
     }
 
     @OnClick(R.id.f_my_info_bt_logout)

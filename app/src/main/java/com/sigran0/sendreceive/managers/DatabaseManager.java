@@ -100,6 +100,11 @@ public class DatabaseManager {
         });
     }
 
+    public void deleteItemData(String itemId){
+        database.getReference("itemData")
+                .child(itemId).removeValue();
+    }
+
     public void saveItemData(final ModelManager.ItemData data, Uri imageUri, final DataListner.DataSendListener dataSendListener) {
         final DatabaseReference ref = database.getReference("itemData").push();
         final String key = ref.getKey();

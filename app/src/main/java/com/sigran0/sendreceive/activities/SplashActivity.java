@@ -1,5 +1,6 @@
 package com.sigran0.sendreceive.activities;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,12 +9,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.sigran0.sendreceive.R;
 import com.sigran0.sendreceive.interfaces.DataListner;
 import com.sigran0.sendreceive.interfaces.SigninCallback;
 import com.sigran0.sendreceive.managers.DatabaseManager;
 import com.sigran0.sendreceive.managers.ModelManager;
 import com.sigran0.sendreceive.managers.UserManager;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -59,22 +64,40 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        userManager = UserManager.getInstance();
-        databaseManager = DatabaseManager.getInstance();
         mContext = this;
         mThis = this;
 
         startProgress(this);
 
-        mBtLoginFacebook.setVisibility(View.INVISIBLE);
+        TedPermission.with(this)
+                .setPermissionListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted() {
+                        userManager = UserManager.getInstance();
+                        databaseManager = DatabaseManager.getInstance();
 
-        if(userManager.isSignin()) {
-            loadUserdata();
-        } else {
-            Log.d(TAG, "onCreate: 로그인 실패");
-            mBtLoginFacebook.setVisibility(View.VISIBLE);
-            stopProgress();
-        }
+                        mBtLoginFacebook.setVisibility(View.INVISIBLE);
+
+                        if(userManager.isSignin()) {
+                            loadUserdata();
+                        } else {
+                            Log.d(TAG, "onCreate: 로그인 실패");
+                            mBtLoginFacebook.setVisibility(View.VISIBLE);
+                            stopProgress();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                        Toast.makeText(SplashActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                })
+                .setDeniedMessage("권한이 필요해요 ㅠ_ㅠ [Setting] > [Permission] > Send-Recieve 에 가서 권한을 주세요")
+                .setPermissions(Manifest.permission.INTERNET,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .check();
     }
 
     @Override

@@ -12,4 +12,16 @@
         android:layout_height="match_parent">
     </android.support.v7.widget.RecyclerView>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/a_item_list_tv"
+        android:visibility="gone"
+        android:gravity="center"
+        android:text="내역이 없습니다."
+        android:textColor="@color/md_white_1000"
+        android:alpha="0.65"
+        android:textSize="25sp"
+        />
+
 </android.support.constraint.ConstraintLayout>
