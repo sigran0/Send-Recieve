@@ -17,14 +17,14 @@ public class ItemListAdapter extends RecyclerView.Adapter<BaseHolder>{
 
     private Context context;
     private ItemListHolder.TYPE type;
-    private List<ModelManager.ItemData> data;
+    private ModelManager.ItemDataList data;
 
     public ItemListAdapter(Context context, ItemListHolder.TYPE type) {
         this.context = context;
         this.type = type;
     }
 
-    public void setData(List<ModelManager.ItemData> data) {
+    public void setData(ModelManager.ItemDataList data) {
         this.data = data;
         notifyDataSetChanged();
     }
@@ -39,13 +39,13 @@ public class ItemListAdapter extends RecyclerView.Adapter<BaseHolder>{
 
     @Override
     public void onBindViewHolder(final BaseHolder holder, final int pos){
-        holder.setData(data.get(pos));
+        holder.setData(data.getItemDataList().get(pos));
     }
 
     @Override
     public int getItemCount() {
         if(data != null)
-            return data.size();
+            return data.getSize();
         return 0;
     }
 }

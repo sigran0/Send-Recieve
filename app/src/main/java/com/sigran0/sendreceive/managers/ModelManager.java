@@ -1,5 +1,8 @@
 package com.sigran0.sendreceive.managers;
 
+import com.sigran0.sendreceive.recycler.holder.ItemListHolder;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +12,13 @@ import lombok.Setter;
 public class ModelManager {
 
     @Data
-    public static class UserData {
+    public static class TempData implements Serializable{
+        ItemListHolder.TYPE type;
+        ItemDataList data;
+    }
+
+    @Data
+    public static class UserData implements Serializable{
         String uid;
         String email;
         String phoneNumber;
@@ -19,14 +28,14 @@ public class ModelManager {
         String birthDate;
     }
 
-    public enum ItemState {
+    public enum ItemState implements Serializable{
         NO_ONE_ACCEPT,
         DELIVERING,
         COMPLETE
     }
 
     @Data
-    public static class ItemData {
+    public static class ItemData implements Serializable{
         String itemName;
         String customerUid;
         String customerName;
@@ -44,13 +53,13 @@ public class ModelManager {
     }
 
     @Data
-    public static class ItemDataList {
+    public static class ItemDataList implements Serializable {
         int size = 0;
         List<ItemData> itemDataList = new ArrayList<>();
     }
 
     @Data
-    public static class CategoryList {
+    public static class CategoryList implements Serializable{
         List<Category> categoryList;
     }
 

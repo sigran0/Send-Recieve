@@ -24,21 +24,15 @@ public class ItemListFragment extends BaseFragment {
     @BindView(R.id.f_item_list_rv)
     RecyclerView rv;
 
-    private ItemListHolder.TYPE aType;
-    private List<ModelManager.ItemData> aData;
+    private ModelManager.TempData aContainer;
 
     public ItemListFragment(){
 
     }
 
-    public void setType(ItemListHolder.TYPE type) {
-        Log.d(TAG, "setType: " + type);
-        aType = type;
-    }
-
-    public void setData(List<ModelManager.ItemData> data) {
+    public void setData(ModelManager.TempData data) {
         Log.d(TAG, "setData: " + data.toString());
-        aData = data;
+        aContainer = data;
     }
 
     @Nullable
@@ -51,14 +45,13 @@ public class ItemListFragment extends BaseFragment {
     @Override
     protected void initializeLayout(){
 
-        Log.d(TAG, "initializeLayout: " + aType + ", " + aData.toString());
-        if(aType == null)
-            throw new NullPointerException("you must call setType");
+        Log.d(TAG, "initializeLayout: " + aContainer.toString());
 
-        if(aData == null)
+        if(aContainer == null)
             throw new NullPointerException("you must call setData");
 
-        ItemListAdapter itemListAdapter = new ItemListAdapter(getContext(), aType);
+        ItemListAdapter itemListAdapter = new ItemListAdapter(getContext(), aContainer.getType());
+        itemListAdapter.setData(aContainer.getData());
         rv.setAdapter(itemListAdapter);
     }
 }

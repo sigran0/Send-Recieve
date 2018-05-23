@@ -12,7 +12,6 @@ import android.widget.ScrollView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.florent37.materialtextfield.MaterialTextField;
-import com.google.android.gms.maps.model.LatLng;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.sigran0.sendreceive.R;
 import com.sigran0.sendreceive.interfaces.DataListner;
@@ -36,7 +35,6 @@ public class SendFragment extends BaseFragment{
 
     private final int GALLERY_CODE=1112;
     private Uri imageUri = null;
-    private LatLng startLatLng = null;
 
     private SendPagerAdapter sendPagerAdapter;
 

@@ -1,5 +1,6 @@
 package com.sigran0.sendreceive.fragments;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.UserManager;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.sigran0.sendreceive.R;
+import com.sigran0.sendreceive.activities.ListActivity;
 import com.sigran0.sendreceive.activities.SubActivity;
 import com.sigran0.sendreceive.interfaces.DataListner;
 import com.sigran0.sendreceive.managers.DatabaseManager;
@@ -51,11 +53,12 @@ public class MyInfoFragment extends BaseFragment {
             @Override
             public void success(ModelManager.ItemDataList data) {
                 stopProgress();
-                ItemListFragment fragment = new ItemListFragment();
-                fragment.setType(ItemListHolder.TYPE.CLIENT);
-                fragment.setData(data.getItemDataList());
 
-                MyInfoFragment.this.getBaseActivity().startActivityWithFragment(SubActivity.class, fragment);
+                Intent intent = new Intent(MyInfoFragment.this.getActivity(), ListActivity.class);
+                intent.putExtra("type", ItemListHolder.TYPE.CLIENT);
+                intent.putExtra("data", data);
+
+                startActivity(intent);
             }
 
             @Override
