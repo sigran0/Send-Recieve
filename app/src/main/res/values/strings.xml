@@ -6,4 +6,6 @@
     <string name="title_send">보내기</string>
     <string name="title_dashboard">내 정보</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_activity_sender_main">SenderMainActivity</string>
+    <string name="title_home">Home</string>
 </resources>

@@ -6,25 +6,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
-    tools:context="com.sigran0.sendreceive.activities.MainActivity">
+    tools:context="com.sigran0.sendreceive.activities.ReceiverMainActivity">
 
     <com.sigran0.sendreceive.views.LockableViewPager
-        android:id="@+id/a_main_lvp"
+        android:id="@+id/a_receiver_main_lvp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/a_receiver_main_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     </com.sigran0.sendreceive.views.LockableViewPager>
 
     <android.support.design.widget.BottomNavigationView
-        android:id="@+id/a_main_navigation"
+        android:id="@+id/a_receiver_main_navigation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="0dp"
-        android:layout_marginStart="0dp"
         android:background="?android:attr/windowBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/navigation" />
+        app:menu="@menu/receiver_navigation" />
 
 </android.support.constraint.ConstraintLayout>

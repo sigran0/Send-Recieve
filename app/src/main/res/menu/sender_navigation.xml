@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_send"
+        android:id="@+id/n_sender_item_list"
         android:icon="@drawable/baseline_local_shipping_white_24"
         android:title="@string/title_send" />
 
     <item
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/n_sender_dashboard"
         android:icon="@drawable/baseline_dashboard_white_24"
         android:title="@string/title_dashboard" />
 

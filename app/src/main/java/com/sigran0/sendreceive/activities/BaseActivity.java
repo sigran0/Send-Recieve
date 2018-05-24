@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 
 import com.sigran0.sendreceive.R;
@@ -160,5 +161,9 @@ public abstract class BaseActivity extends FragmentActivity{
                 }
             }
         }
+    }
+
+    protected void showToast(String text){
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 }

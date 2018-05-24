@@ -146,6 +146,34 @@ public class DatabaseManager {
                 });
     }
 
+    public void getNotProceedItemListData(final DataListner.DataReceiveListener<ModelManager.ItemDataList> listener) {
+
+        database.getReference("itemData")
+                .orderByChild("processState")
+                .equalTo(0)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        ModelManager.ItemDataList result = new ModelManager.ItemDataList();
+
+                        for(DataSnapshot item : dataSnapshot.getChildren()) {
+                            ModelManager.ItemData temp = item.getValue(ModelManager.ItemData.class);
+                            result.getItemDataList().add(temp);
+                        }
+
+                        result.setSize(result.getItemDataList().size());
+                        listener.success(result);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        listener.fail(databaseError.getMessage());
+                        throw databaseError.toException();
+                    }
+                });
+    }
+
     public void getMySendListData(final DataListner.DataReceiveListener<ModelManager.ItemDataList> listener) {
 
         final String uid = userManager.getUID();

@@ -44,7 +44,7 @@
         </activity>
         <activity android:name=".activities.SigninActivity" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.ReceiverMainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.MyTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -59,7 +59,12 @@
             android:value="AIzaSyAMaBRKahsEWE0mL1jE--syFMBBFlhMl8E" />
 
         <activity android:name=".activities.ListActivity" />
-        <activity android:name=".activities.ItemInfoActivity"></activity>
+        <activity android:name=".activities.ItemInfoActivity" />
+        <activity
+            android:name=".activities.SenderMainActivity"
+            android:label="@string/title_activity_sender_main"
+            android:theme="@style/Theme.MyTheme">
+        </activity>
     </application>
 
 </manifest>

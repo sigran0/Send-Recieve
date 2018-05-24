@@ -1,6 +1,5 @@
 package com.sigran0.sendreceive.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -8,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sigran0.sendreceive.R;
-import com.sigran0.sendreceive.activities.BaseActivity;
-import com.sigran0.sendreceive.activities.MainActivity;
 import com.sigran0.sendreceive.activities.SubActivity;
 
 import butterknife.OnClick;

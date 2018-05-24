@@ -1,7 +1,5 @@
 package com.sigran0.sendreceive.activities;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,13 +9,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sigran0.sendreceive.R;
-import com.sigran0.sendreceive.fragments.BaseFragment;
-import com.sigran0.sendreceive.fragments.MyInfoFragment;
-import com.sigran0.sendreceive.fragments.SendStartFragment;
 import com.sigran0.sendreceive.interfaces.DataListner;
 import com.sigran0.sendreceive.managers.DatabaseManager;
 import com.sigran0.sendreceive.managers.ModelManager;
-import com.sigran0.sendreceive.pagerAdapter.MainPagerAdapter;
 import com.sigran0.sendreceive.recycler.adapter.ItemListAdapter;
 import com.sigran0.sendreceive.recycler.holder.ItemListHolder;
 

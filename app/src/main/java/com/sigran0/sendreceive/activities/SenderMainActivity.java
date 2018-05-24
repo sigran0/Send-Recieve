@@ -3,45 +3,38 @@ package com.sigran0.sendreceive.activities;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.sigran0.sendreceive.R;
 import com.sigran0.sendreceive.fragments.BaseFragment;
+import com.sigran0.sendreceive.fragments.ItemListFragment;
 import com.sigran0.sendreceive.fragments.MyInfoFragment;
-import com.sigran0.sendreceive.fragments.SendFragment;
 import com.sigran0.sendreceive.fragments.SendStartFragment;
-import com.sigran0.sendreceive.managers.DatabaseManager;
-import com.sigran0.sendreceive.managers.UserManager;
-import com.sigran0.sendreceive.pagerAdapter.MainPagerAdapter;
+import com.sigran0.sendreceive.pagerAdapter.ReceiverMainPagerAdapter;
+import com.sigran0.sendreceive.pagerAdapter.SenderMainPagerAdapter;
 import com.sigran0.sendreceive.views.LockableViewPager;
 
 import butterknife.BindView;
-import butterknife.BindViews;
 
-public class MainActivity extends BaseActivity {
+public class SenderMainActivity extends BaseActivity {
 
-    private TextView mTextMessage;
+    SenderMainPagerAdapter senderMainPagerAdapter;
 
-    MainPagerAdapter mainPagerAdapter;
-
-    @BindView(R.id.a_main_lvp)
+    @BindView(R.id.a_sender_main_lvp)
     LockableViewPager viewPager;
 
-    @BindView(R.id.a_main_navigation)
-    BottomNavigationView navigationView;
+    @BindView(R.id.a_sender_main_navigation)
+    BottomNavigationView bnv;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_send:
-                    viewPager.setCurrentItem(0, true);
+                case R.id.n_sender_item_list:
                     return true;
-                case R.id.navigation_dashboard:
-                    viewPager.setCurrentItem(1, true);
+                case R.id.n_sender_dashboard:
                     return true;
             }
             return false;
@@ -51,28 +44,28 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
     protected int getLayoutResourceId(){
-        return R.layout.activity_main;
+        return R.layout.activity_sender_main;
     }
 
     @Override
     protected void initializeLayout(){
-        navigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        bnv.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        BaseFragment sendFragment = new SendStartFragment();
+        BaseFragment sendFragment = new ItemListFragment();
         BaseFragment myInfoFragment = new MyInfoFragment();
 
-        mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
+        senderMainPagerAdapter = new SenderMainPagerAdapter(getSupportFragmentManager());
 
-        mainPagerAdapter.addPage(sendFragment);
-        mainPagerAdapter.addPage(myInfoFragment);
+        senderMainPagerAdapter.addPage(sendFragment);
+        senderMainPagerAdapter.addPage(myInfoFragment);
 
-        viewPager.setAdapter(mainPagerAdapter);
+        viewPager.setAdapter(senderMainPagerAdapter);
         viewPager.setOffscreenPageLimit(2);
         viewPager.setSwipeLocked(true);
     }
-
 }

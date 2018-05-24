@@ -118,8 +118,13 @@ public class SplashActivity extends BaseActivity {
                     Intent intent = new Intent(SplashActivity.this, SigninActivity.class);
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    if(data.getType() == 0) {
+                        Intent intent = new Intent(SplashActivity.this, ReceiverMainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(SplashActivity.this, SenderMainActivity.class);
+                        startActivity(intent);
+                    }
                     finish();
                 }
                 stopProgress();

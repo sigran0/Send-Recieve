@@ -126,7 +126,7 @@ public class SigninActivity extends BaseActivity {
                 stopProgress();
                 Toast.makeText(context, "축하합니다! 가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                 SigninActivity.this.finish();
-                Intent intent = new Intent(SigninActivity.this, MainActivity.class);
+                Intent intent = new Intent(SigninActivity.this, ReceiverMainActivity.class);
                 startActivity(intent);
                 finish();
             }

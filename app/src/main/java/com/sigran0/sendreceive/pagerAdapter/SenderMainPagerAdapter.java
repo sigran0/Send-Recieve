@@ -6,9 +6,9 @@ import android.support.v4.app.FragmentManager;
  * Created by Administrator on 2018-05-19.
  */
 
-public class MainPagerAdapter extends BaseFragmentPagerAdapter {
+public class SenderMainPagerAdapter extends BaseFragmentPagerAdapter {
 
-    public MainPagerAdapter(FragmentManager fm) {
+    public SenderMainPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 }
