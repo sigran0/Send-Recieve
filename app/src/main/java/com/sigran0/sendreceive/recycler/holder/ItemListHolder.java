@@ -51,7 +51,6 @@ public class ItemListHolder extends BaseHolder<ModelManager.ItemData> {
     @Override
     public void setData(ModelManager.ItemData data) {
         this.data = data;
-        Log.d(TAG, "setData asdasd: ");
         atvs[1].setText(data.getItemName());
 
         if(this.type == TYPE.CLIENT) {

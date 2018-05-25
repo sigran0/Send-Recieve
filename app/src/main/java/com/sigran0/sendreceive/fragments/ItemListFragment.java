@@ -51,21 +51,18 @@ public class ItemListFragment extends BaseFragment {
         layoutManager = new LinearLayoutManager(ItemListFragment.this.getContext());
         rv.setAdapter(itemListAdapter);
         rv.setLayoutManager(layoutManager);
-        startProgress();
         databaseManager
                 .getNotProceedItemListData(
                         new DataListner.DataReceiveListener<ModelManager.ItemDataList>() {
             @Override
             public void success(ModelManager.ItemDataList data) {
-                Log.d(TAG, "success: " + data);
+//                Log.d(TAG, "success: " + data);
                 itemListAdapter.setData(data);
-                stopProgress();
             }
 
             @Override
             public void fail(String message) {
                 Log.d(TAG, "fail: " + message);
-                stopProgress();
             }
         });}
 }

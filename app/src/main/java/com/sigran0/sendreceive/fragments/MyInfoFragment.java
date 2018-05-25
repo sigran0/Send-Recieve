@@ -69,46 +69,85 @@ public class MyInfoFragment extends BaseFragment {
     @Override
     protected void initializeLayout(){
         startProgress();
+        Log.d(TAG, "initializeLayout: fucking start init");
 
-        sdm.initialize(new DataListner.DataInitializeListener() {
-            @Override
-            public void success() {
-                ModelManager.UserData data = sdm.getUserData();
+        if(sdm.isInitialized()){
+            ModelManager.UserData data = sdm.getUserData();
 
-                final String username = data.getUsername();
-                final String usertype;
+            final String username = data.getUsername();
+            final String usertype;
 
-                if(data.getType() == 0)
-                    usertype = "일반회원";
-                else
-                    usertype = "퀵배송 요원";
+            if(data.getType() == 0)
+                usertype = "일반회원";
+            else
+                usertype = "퀵배송 요원";
 
-                String imageId = data.getImageUrl();
+            String imageId = data.getImageUrl();
 
-                databaseManager.downloadImage(imageId, new DataListner.DataReceiveListener<Uri>() {
-                    @Override
-                    public void success(Uri data) {
-                        sdvProfile.setImageURI(data);
-                        tvUsername.setText(username);
-                        tvType.setText(usertype);
-                        stopProgress();
-                    }
+            Log.d(TAG, "success: fucking download image");
 
-                    @Override
-                    public void fail(String message) {
-                        stopProgress();
-                        showToast("원인불명의 오류로 불러오기에 실패했습니다 ㅜ_ㅜ.\n다시 시도해 주세요.");
-                        Log.e(TAG, "fail: fucking" + message);
-                    }
-                });
-            }
+            databaseManager.downloadImage(imageId, new DataListner.DataReceiveListener<Uri>() {
+                @Override
+                public void success(Uri data) {
+                    sdvProfile.setImageURI(data);
+                    tvUsername.setText(username);
+                    tvType.setText(usertype);
+                    Log.d(TAG, "success: fucking complete");
+                    stopProgress();
+                }
 
-            @Override
-            public void fail(String message) {
-                stopProgress();
-                showToast("원인불명의 오류로 불러오기에 실패했습니다 ㅜ_ㅜ.\n다시 시도해 주세요.");
-                Log.e(TAG, "fail: fucking" + message);
-            }
-        });
+                @Override
+                public void fail(String message) {
+                    stopProgress();
+                    showToast("원인불명의 오류로 불러오기에 실패했습니다 ㅜ_ㅜ.\n다시 시도해 주세요.");
+                    Log.e(TAG, "fail: fucking" + message);
+                }
+            });
+
+        } else {
+            sdm.initialize(new DataListner.DataInitializeListener() {
+                @Override
+                public void success() {
+                    ModelManager.UserData data = sdm.getUserData();
+
+                    final String username = data.getUsername();
+                    final String usertype;
+
+                    if(data.getType() == 0)
+                        usertype = "일반회원";
+                    else
+                        usertype = "퀵배송 요원";
+
+                    String imageId = data.getImageUrl();
+
+                    Log.d(TAG, "success: fucking download image");
+
+                    databaseManager.downloadImage(imageId, new DataListner.DataReceiveListener<Uri>() {
+                        @Override
+                        public void success(Uri data) {
+                            sdvProfile.setImageURI(data);
+                            tvUsername.setText(username);
+                            tvType.setText(usertype);
+                            Log.d(TAG, "success: fucking complete");
+                            stopProgress();
+                        }
+
+                        @Override
+                        public void fail(String message) {
+                            stopProgress();
+                            showToast("원인불명의 오류로 불러오기에 실패했습니다 ㅜ_ㅜ.\n다시 시도해 주세요.");
+                            Log.e(TAG, "fail: fucking" + message);
+                        }
+                    });
+                }
+
+                @Override
+                public void fail(String message) {
+                    stopProgress();
+                    showToast("원인불명의 오류로 불러오기에 실패했습니다 ㅜ_ㅜ.\n다시 시도해 주세요.");
+                    Log.e(TAG, "fail: fucking" + message);
+                }
+            });
+        }
     }
 }

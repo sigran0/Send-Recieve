@@ -26,6 +26,10 @@ public class StaticDataManager {
         return instance;
     }
 
+    public boolean isInitialized(){
+        return isInitialized;
+    }
+
     public void initialize(final DataListner.DataInitializeListener listener) {
         if(!isInitialized)
             databaseManager.getUserData(new DataListner.DataReceiveListener<ModelManager.UserData>() {

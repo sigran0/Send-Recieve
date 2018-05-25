@@ -28,13 +28,14 @@ public class SenderMainActivity extends BaseActivity {
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.n_sender_item_list:
+                    viewPager.setCurrentItem(0, true);
                     return true;
                 case R.id.n_sender_dashboard:
+                    viewPager.setCurrentItem(1, true);
                     return true;
             }
             return false;
