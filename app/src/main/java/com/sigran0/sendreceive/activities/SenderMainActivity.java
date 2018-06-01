@@ -12,6 +12,7 @@ import com.sigran0.sendreceive.fragments.MyInfoFragment;
 import com.sigran0.sendreceive.fragments.SendStartFragment;
 import com.sigran0.sendreceive.pagerAdapter.ReceiverMainPagerAdapter;
 import com.sigran0.sendreceive.pagerAdapter.SenderMainPagerAdapter;
+import com.sigran0.sendreceive.recycler.holder.ItemListHolder;
 import com.sigran0.sendreceive.views.LockableViewPager;
 
 import butterknife.BindView;
@@ -57,7 +58,9 @@ public class SenderMainActivity extends BaseActivity {
     protected void initializeLayout(){
         bnv.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        BaseFragment sendFragment = new ItemListFragment();
+        ItemListFragment sendFragment = new ItemListFragment();
+        sendFragment.setType(ItemListHolder.TYPE.DELIVERER);
+        
         BaseFragment myInfoFragment = new MyInfoFragment();
 
         senderMainPagerAdapter = new SenderMainPagerAdapter(getSupportFragmentManager());

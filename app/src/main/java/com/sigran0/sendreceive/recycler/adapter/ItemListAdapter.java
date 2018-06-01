@@ -52,6 +52,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListHolder> {
             public void onClick(View view) {
                 Intent intent = new Intent(context, ItemInfoActivity.class);
                 intent.putExtra("data", data.getItemDataList().get(pos));
+                intent.putExtra("type", type);
 
                 context.startActivity(intent);
             }

@@ -9,4 +9,5 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_sender_main">SenderMainActivity</string>
     <string name="title_home">Home</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

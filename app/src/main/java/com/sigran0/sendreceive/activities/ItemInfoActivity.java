@@ -30,23 +30,28 @@ public class ItemInfoActivity extends BaseActivity {
     AutofitTextView[] atvs;
 
     @BindView(R.id.a_item_info_bt)
-    Button button;
+    Button bt;
 
     @OnClick(R.id.a_item_info_bt)
     void OnClick(){
-        DatabaseManager.getInstance().deleteItemData(data.getImageUrl());
-        finish();
+
+        if(type.ordinal() == 0){
+            DatabaseManager.getInstance().deleteItemData(data.getImageUrl());
+            finish();
+        } else if(type.ordinal() == 1) {
+
+        }
     }
 
     @BindView(R.id.a_item_info_sdv)
     SimpleDraweeView sdv;
 
     ModelManager.ItemData data;
+    ItemListHolder.TYPE type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -60,6 +65,11 @@ public class ItemInfoActivity extends BaseActivity {
         startProgress(ItemInfoActivity.this);
 
         data = (ModelManager.ItemData) getIntent().getSerializableExtra("data");
+        type = (ItemListHolder.TYPE) getIntent().getSerializableExtra("type");
+
+        if(type.ordinal() == 1) {
+            bt.setText("일 진행하기");
+        }
 
         DatabaseManager.getInstance().downloadImage(data.getImageUrl(), new DataListner.DataReceiveListener<Uri>() {
             @Override
