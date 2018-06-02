@@ -32,6 +32,7 @@ public class ModelManager {
         String username;
         String imageUrl;
         int type;
+        int money;
         String birthDate;
     }
 

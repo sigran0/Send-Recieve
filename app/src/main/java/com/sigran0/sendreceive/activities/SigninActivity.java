@@ -118,6 +118,11 @@ public class SigninActivity extends BaseActivity {
         userData.setUid(uid);
         userData.setType(check);
 
+        if (checkedId == 0)
+            userData.setMoney(100000);
+        else if(checkedId == 1)
+            userData.setMoney(0);
+
         startProgress(SigninActivity.this);
 
         dbManager.saveUserData(userData, imageUri, new DataListner.DataSendListener() {
