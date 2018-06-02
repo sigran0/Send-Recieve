@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.sigran0.sendreceive.R;
 import com.sigran0.sendreceive.interfaces.DataListner;
 import com.sigran0.sendreceive.managers.DatabaseManager;
@@ -51,29 +54,37 @@ public class ListActivity extends BaseActivity {
 
         rv.setAdapter(adapter);
         rv.setLayoutManager(layoutManager);
+
+        startProgress(ListActivity.this);
+
+        DatabaseManager.getInstance().getMyItemList(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                stopProgress();
+
+                ModelManager.ItemDataList result = new ModelManager.ItemDataList();
+
+                for(DataSnapshot item : dataSnapshot.getChildren()) {
+                    ModelManager.ItemData temp = item.getValue(ModelManager.ItemData.class);
+                    result.getItemDataList().add(temp);
+                }
+
+                result.setSize(result.getItemDataList().size());
+                data = result;
+                adapter.setData(data);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                stopProgress();
+                throw databaseError.toException();
+            }
+        });
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-
-        startProgress(ListActivity.this);
-
-        DatabaseManager.getInstance().getMySendListData(new DataListner.DataReceiveListener<ModelManager.ItemDataList>() {
-            @Override
-            public void success(ModelManager.ItemDataList data) {
-                if(data == null || data.getSize() == 0)
-                    tv.setVisibility(View.VISIBLE);
-                adapter.setData(data);
-                stopProgress();
-            }
-
-            @Override
-            public void fail(String message) {
-                Log.d("fucking", "fail: " + message);
-                Toast.makeText(ListActivity.this, "원인불명의 오류가 발생했습니다 ㅠ_ㅠ\n다시 시도 해 주세요", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        });
     }
 }

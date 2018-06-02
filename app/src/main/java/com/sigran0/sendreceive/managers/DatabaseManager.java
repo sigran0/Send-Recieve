@@ -124,6 +124,28 @@ public class DatabaseManager {
         });
     }
 
+    public void changeUserDataState(final ModelManager.ItemData data,
+                                    final ModelManager.ITEM_STATE state,
+                                    final DataListner.DataSendListener listener) {
+        database.getReference("itemData")
+                .child(data.getImageUrl())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        data.setProcessState(state.ordinal());
+                        data.setDelivererName(userManager.getUsername());
+                        data.setDelivererUid(userManager.getUID());
+                        dataSnapshot.getRef().setValue(data);
+                        listener.success();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        listener.fail(databaseError.getMessage());
+                    }
+                });
+    }
+
     public void getUserData(final DataListner.DataReceiveListener<ModelManager.UserData> listener) {
 
         final String uid = userManager.getUID();
@@ -144,6 +166,15 @@ public class DatabaseManager {
                         throw databaseError.toException();
                     }
                 });
+    }
+
+    public void getNotProceedItemListData2(final ValueEventListener listener) {
+
+        database.getReference("itemData")
+                .orderByChild("processState")
+                .startAt(0)
+                .endAt(1)
+                .addValueEventListener(listener);
     }
 
     public void getNotProceedItemListData(final DataListner.DataReceiveListener<ModelManager.ItemDataList> listener) {
@@ -172,6 +203,17 @@ public class DatabaseManager {
                         throw databaseError.toException();
                     }
                 });
+    }
+
+    public void getMyItemList(final ValueEventListener listener){
+
+        final String uid = userManager.getUID();
+
+        database.getReference("itemData")
+                .orderByChild("customerUid")
+                .equalTo(uid)
+                .addValueEventListener(listener);
+
     }
 
     public void getMySendListData(final DataListner.DataReceiveListener<ModelManager.ItemDataList> listener) {

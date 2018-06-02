@@ -11,6 +11,12 @@ import lombok.Setter;
 
 public class ModelManager {
 
+    public static enum ITEM_STATE {
+        NOT_PROCESS,
+        PROCESSING,
+        COMPLETE
+    }
+
     @Data
     public static class TempData implements Serializable{
         ItemListHolder.TYPE type;

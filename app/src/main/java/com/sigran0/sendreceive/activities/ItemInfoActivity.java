@@ -39,7 +39,20 @@ public class ItemInfoActivity extends BaseActivity {
             DatabaseManager.getInstance().deleteItemData(data.getImageUrl());
             finish();
         } else if(type.ordinal() == 1) {
+            DatabaseManager.getInstance().changeUserDataState(data, ModelManager.ITEM_STATE.PROCESSING,
+                    new DataListner.DataSendListener() {
+                @Override
+                public void success() {
+                    Toast.makeText(ItemInfoActivity.this, "일감을 받았습니다.", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
 
+                @Override
+                public void fail(String message) {
+                    Toast.makeText(ItemInfoActivity.this, "알수없는 오류가 있습니다. ㅠ-ㅠ 다시 시도 해 주세요", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            });
         }
     }
 

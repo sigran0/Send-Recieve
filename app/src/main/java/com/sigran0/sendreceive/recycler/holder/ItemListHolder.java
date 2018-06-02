@@ -40,11 +40,11 @@ public class ItemListHolder extends BaseHolder<ModelManager.ItemData> {
         if(this.type == TYPE.CLIENT) {
             atvs[0].setText("상품 이름");
             atvs[2].setText("배송자 정보");
-            atvs[4].setText("상품 처리 정보");
+            atvs[4].setText("배송 상태");
         } else {
             atvs[0].setText("상품 이름");
             atvs[2].setText("신청자 정보");
-            atvs[4].setText("배송완료 확인");
+            atvs[4].setText("배송 상태");
         }
     }
 

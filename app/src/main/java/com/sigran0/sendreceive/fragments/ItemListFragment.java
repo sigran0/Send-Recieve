@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.sigran0.sendreceive.R;
 import com.sigran0.sendreceive.interfaces.DataListner;
 import com.sigran0.sendreceive.managers.ModelManager;
@@ -47,22 +50,44 @@ public class ItemListFragment extends BaseFragment {
     @Override
     protected void initializeLayout(){
 
+        Log.d(TAG, "initializeLayout: call fucking init");
+
         final ItemListAdapter itemListAdapter = new ItemListAdapter(getContext(), type);
         layoutManager = new LinearLayoutManager(ItemListFragment.this.getContext());
         rv.setAdapter(itemListAdapter);
         rv.setLayoutManager(layoutManager);
-        databaseManager
-                .getNotProceedItemListData(
-                        new DataListner.DataReceiveListener<ModelManager.ItemDataList>() {
+
+        databaseManager.getNotProceedItemListData2(new ValueEventListener() {
             @Override
-            public void success(ModelManager.ItemDataList data) {
-//                Log.d(TAG, "success: " + data);
-                itemListAdapter.setData(data);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ModelManager.ItemDataList result = new ModelManager.ItemDataList();
+
+                for(DataSnapshot item : dataSnapshot.getChildren()) {
+                    ModelManager.ItemData temp = item.getValue(ModelManager.ItemData.class);
+                    result.getItemDataList().add(temp);
+                }
+
+                result.setSize(result.getItemDataList().size());
+                itemListAdapter.setData(result);
             }
 
             @Override
-            public void fail(String message) {
-                Log.d(TAG, "fail: " + message);
+            public void onCancelled(DatabaseError databaseError) {
+                throw databaseError.toException();
             }
-        });}
+        });
+//        databaseManager
+//                .getNotProceedItemListData(
+//                        new DataListner.DataReceiveListener<ModelManager.ItemDataList>() {
+//            @Override
+//            public void success(ModelManager.ItemDataList data) {
+//                itemListAdapter.setData(data);
+//            }
+//
+//            @Override
+//            public void fail(String message) {
+//                Log.d(TAG, "fail: " + message);
+//            }
+//        });
+    }
 }
