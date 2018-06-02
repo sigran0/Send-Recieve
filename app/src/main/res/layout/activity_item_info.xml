@@ -219,72 +219,78 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/a_item_info_ll_user_name"
+                android:id="@+id/a_item_info_ll_user_info"
                 android:layout_width="0dp"
-                android:layout_height="80dp"
+                android:layout_height="81dp"
                 android:layout_marginTop="16dp"
-                android:orientation="vertical"
+                android:orientation="horizontal"
+                android:weightSum="2"
                 app:layout_constraintEnd_toEndOf="@+id/a_item_info_ll_item_info"
                 app:layout_constraintStart_toStartOf="@+id/a_item_info_ll_item_info"
                 app:layout_constraintTop_toBottomOf="@+id/a_item_info_ll_item_info">
 
-                <TextView
-                    android:id="@+id/a_item_info_tv_user_name_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:alpha="0.65"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="사용자 이름"
-                    android:textColor="@color/md_white_1000"
-                    android:textSize="20sp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <me.grantland.widget.AutofitTextView
-                    android:id="@+id/a_item_info_atv_user_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@color/md_white_1000"
-                    android:textSize="20sp"
-                    app:minTextSize="8sp" />
+                    <me.grantland.widget.AutofitTextView
+                        android:id="@+id/a_item_info_atv_title_user_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:alpha="0.65"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="사용자 이름"
+                        android:textColor="@color/md_white_1000"
+                        android:textSize="20sp"
+                        app:minTextSize="8sp" />
 
-            </LinearLayout>
+                    <me.grantland.widget.AutofitTextView
+                        android:id="@+id/a_item_info_atv_user_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@color/md_white_1000"
+                        android:textSize="20sp"
+                        app:minTextSize="8sp" />
 
-            <LinearLayout
-                android:id="@+id/a_item_info_ll_phone_number"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_marginTop="16dp"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="@+id/a_item_info_ll_user_name"
-                app:layout_constraintStart_toStartOf="@+id/a_item_info_ll_user_name"
-                app:layout_constraintTop_toBottomOf="@+id/a_item_info_ll_user_name">
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/a_item_info_tv_phone_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:alpha="0.65"
-                    android:text="휴대폰 번호"
-                    android:textColor="@color/md_white_1000"
-                    android:textSize="20sp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <me.grantland.widget.AutofitTextView
-                    android:id="@+id/a_item_info_atv_phone"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@color/md_white_1000"
-                    android:textSize="20sp"
-                    app:minTextSize="8sp" />
+                    <me.grantland.widget.AutofitTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:alpha="0.65"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="연락처"
+                        android:textColor="@color/md_white_1000"
+                        android:textSize="20sp"
+                        app:minTextSize="8sp" />
+
+                    <me.grantland.widget.AutofitTextView
+                        android:id="@+id/a_item_info_atv_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@color/md_white_1000"
+                        android:textSize="20sp"
+                        app:minTextSize="8sp" />
+
+                </LinearLayout>
             </LinearLayout>
 
             <Button
@@ -297,9 +303,9 @@
                 android:text="삭제하기"
                 android:textColor="@color/md_white_1000"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/a_item_info_ll_phone_number"
-                app:layout_constraintStart_toStartOf="@+id/a_item_info_ll_phone_number"
-                app:layout_constraintTop_toBottomOf="@+id/a_item_info_ll_phone_number" />
+                app:layout_constraintEnd_toEndOf="@+id/a_item_info_ll_user_info"
+                app:layout_constraintStart_toStartOf="@+id/a_item_info_ll_user_info"
+                app:layout_constraintTop_toBottomOf="@+id/a_item_info_ll_user_info" />
 
 
         </android.support.constraint.ConstraintLayout>

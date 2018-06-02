@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -29,18 +30,11 @@ public class ItemInfoActivity extends BaseActivity {
                 R.id.a_item_info_atv_phone})
     AutofitTextView[] atvs;
 
+    @BindView(R.id.a_item_info_atv_title_user_name)
+    AutofitTextView tvUserName;
+
     @BindView(R.id.a_item_info_bt)
     Button bt;
-
-    @OnClick(R.id.a_item_info_bt)
-    void OnClick(){
-
-        if(type.ordinal() == 0){
-
-        } else if(type.ordinal() == 1) {
-
-        }
-    }
 
     @BindView(R.id.a_item_info_sdv)
     SimpleDraweeView sdv;
@@ -113,25 +107,49 @@ public class ItemInfoActivity extends BaseActivity {
                             }
                         };
 
-                //  배송 버튼 관련 설정
+                //  배송 사용자 관련 설정
                 //  클라이언트이면
                 if(type.ordinal() == 0) {
+                    tvUserName.setText("배송자 이름");
                     dbManager.getUserData(data.getDelivererUid(), phoneNumberListener);
 
-                    if(data.getProcessState() == 1) {
-                        bt.setText("배송 진행중 입니다 ^-^");
-                        bt.setClickable(false);
-                    } else if(data.getProcessState() == 0){
+                    if(data.getProcessState() == 0) {
+                        bt.setOnClickListener(null);
                         bt.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 DatabaseManager.getInstance().deleteItemData(data.getImageUrl());
+                                bt.setClickable(false);
                                 showToast("삭제하였습니다.");
                                 finish();
                             }
                         });
+                    } else if(data.getProcessState() == 1){
+                        bt.setText("배송 진행중 입니다 ^-^");
+                        bt.setClickable(false);
                     } else if(data.getProcessState() == 2){
                         bt.setText("인계 확인");
+                        bt.setClickable(true);
+                        bt.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                bt.setClickable(false);
+                                dbManager.confirmTransfer(data, new DataListner.DataSendListener() {
+                                    @Override
+                                    public void success() {
+                                        finish();
+                                        showToast("물품 인계가 확인되었습니다.");
+                                        bt.setClickable(false);
+                                    }
+
+                                    @Override
+                                    public void fail(String message) {
+                                        bt.setClickable(true);
+                                        Toast.makeText(ItemInfoActivity.this, "알수없는 오류가 발생헀습니다. 다시 시도 해 주세요", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        });
                         //  TODO    인계확인 프로세스 만들어야함
                     } else if(data.getProcessState() == 3){
                         bt.setText("물품 전달이 완료되었습니다 ^-^");
@@ -139,6 +157,7 @@ public class ItemInfoActivity extends BaseActivity {
                     }
                     //  배송자이면
                 } else {
+                    tvUserName.setText("신청자 이름");
                     dbManager.getUserData(data.getCustomerUid(), phoneNumberListener);
                     if(data.getProcessState() == 0) {
                         bt.setText("일 진행하기");
@@ -146,6 +165,7 @@ public class ItemInfoActivity extends BaseActivity {
                             @Override
                             public void onClick(View v) {
                                 //  배송자가 일감을 받았을 때
+                                bt.setClickable(false);
                                 dbManager.changeUserDataState(data, ModelManager.ITEM_STATE.PROCESSING, getSendListener("일감을 받았습니다."));
                             }
                         });
@@ -154,11 +174,13 @@ public class ItemInfoActivity extends BaseActivity {
                         bt.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                bt.setClickable(false);
                                 dbManager.changeUserDataState(data, ModelManager.ITEM_STATE.DELIVERY_COMPLETE, getSendListener("배송 완료하였습니다."));
                             }
                         });
                     } else if(data.getProcessState() == 2 && data.getDelivererUid().equals(userManager.getUID())){
                         bt.setText("인계 확인이 끝날때 까지 기다려 주세요 ㅠ-ㅠ");
+                        bt.setTextSize(14);
                         bt.setClickable(false);
                     } else if(data.getProcessState() == 3 && data.getDelivererUid().equals(userManager.getUID())) {
                         bt.setText("인계 확인이 끝났습니다. 감사합니다 ^-^");

@@ -2,6 +2,7 @@ package com.sigran0.sendreceive.managers;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -105,6 +106,44 @@ public class DatabaseManager {
                 .child(itemId).removeValue();
     }
 
+    public void confirmTransfer(final ModelManager.ItemData data, final DataListner.DataSendListener listener) {
+        final DatabaseReference ref = database.getReference("itemData").child(data.getImageUrl());
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int deposit = data.getPrice() + data.getEstimatePrice();
+                addUserMoney(data.delivererUid, deposit, listener);
+                data.setProcessState(ModelManager.ITEM_STATE.COMPLETE.ordinal());
+                ref.setValue(data);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.fail(databaseError.getMessage());
+            }
+        });
+    }
+
+    public void addUserMoney(final String uid, final int money, final DataListner.DataSendListener listener) {
+        final DatabaseReference ref = database.getReference("userData").child(uid);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    ModelManager.UserData userData = dataSnapshot
+                            .getValue(ModelManager.UserData.class);
+                    int good = userData.getMoney() + money;
+                    userData.setMoney(good);
+                    ref.setValue(userData);
+                    listener.success();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    listener.fail(databaseError.getMessage());
+                }
+            });
+    }
+
     public void saveItemData(final ModelManager.ItemData data, Uri imageUri, final DataListner.DataSendListener dataSendListener) {
         final DatabaseReference ref = database.getReference("itemData").push();
         final String key = ref.getKey();
@@ -176,7 +215,7 @@ public class DatabaseManager {
 
         database.getReference("userData")
                 .child(uid)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         ModelManager.UserData result = dataSnapshot
@@ -197,26 +236,40 @@ public class DatabaseManager {
         database.getReference("itemData")
                 .orderByChild("delivererUid")
                 .equalTo(uid)
-                .orderByChild("processState")
-                .startAt(1)
-                .endAt(3)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        ModelManager.ItemDataList result = new ModelManager.ItemDataList();
+                        Log.d(TAG, "onDataChange: " + dataSnapshot.toString());
+                        dataSnapshot.getRef()
+                                .orderByChild("processState")
+                                .startAt(1)
+                                .endAt(3)
+                                .addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        ModelManager.ItemDataList result = new ModelManager.ItemDataList();
 
-                        for(DataSnapshot item : dataSnapshot.getChildren()) {
-                            ModelManager.ItemData temp = item.getValue(ModelManager.ItemData.class);
-                            result.getItemDataList().add(temp);
-                        }
+                                        for(DataSnapshot item : dataSnapshot.getChildren()) {
+                                            ModelManager.ItemData temp = item.getValue(ModelManager.ItemData.class);
+                                            result.getItemDataList().add(temp);
+                                        }
 
-                        result.setSize(result.getItemDataList().size());
-                        listener.success(result);
+                                        result.setSize(result.getItemDataList().size());
+                                        listener.success(result);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        listener.fail(databaseError.getMessage());
+                                        throw databaseError.toException();
+                                    }
+                                });
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
+                        listener.fail(databaseError.getMessage());
+                        throw databaseError.toException();
                     }
                 });
     }

@@ -290,6 +290,39 @@
 
             </com.github.florent37.materialtextfield.MaterialTextField>
 
+            <com.github.florent37.materialtextfield.MaterialTextField
+                android:id="@+id/f_send_mtf_deposit"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/f_send_mtf_estimate_price"
+                app:layout_constraintStart_toStartOf="@+id/f_send_mtf_estimate_price"
+                app:layout_constraintTop_toBottomOf="@+id/f_send_mtf_estimate_price"
+                app:mtf_backgroundColor="@color/colorPrimaryDark"
+                app:mtf_image="@drawable/baseline_clear_white_48"
+                app:mtf_labelColor="@color/md_white_1000"
+                app:mtf_openKeyboardOnFocus="true">
+
+                <EditText
+                    android:id="@+id/f_send_et_deposit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimaryDark"
+                    android:hint="결재 후 잔액"
+                    android:maxLength="9"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:textColor="@color/md_white_1000"
+                    android:textSize="15sp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    />
+
+            </com.github.florent37.materialtextfield.MaterialTextField>
+
             <Button
                 android:id="@+id/f_send_bt_submit"
                 android:layout_width="match_parent"
@@ -302,9 +335,9 @@
                 android:paddingRight="30dp"
                 android:text="배송하기"
                 android:textColor="@color/md_white_1000"
-                app:layout_constraintEnd_toEndOf="@+id/f_send_mtf_estimate_price"
-                app:layout_constraintStart_toStartOf="@+id/f_send_mtf_estimate_price"
-                app:layout_constraintTop_toBottomOf="@+id/f_send_mtf_estimate_price" />
+                app:layout_constraintEnd_toEndOf="@+id/f_send_mtf_deposit"
+                app:layout_constraintStart_toStartOf="@+id/f_send_mtf_deposit"
+                app:layout_constraintTop_toBottomOf="@+id/f_send_mtf_deposit" />
 
             <View
                 android:layout_width="match_parent"

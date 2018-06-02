@@ -71,7 +71,7 @@ public class SigninActivity extends BaseActivity {
 
         final int checkedId = radioGroup.getCheckedRadioButtonId();
 
-        int check = -1;
+        final int check;
 
         if(checkedId == R.id.a_signin_rb_0)
             check = 0;
@@ -118,10 +118,7 @@ public class SigninActivity extends BaseActivity {
         userData.setUid(uid);
         userData.setType(check);
 
-        if (checkedId == 0)
-            userData.setMoney(100000);
-        else if(checkedId == 1)
-            userData.setMoney(0);
+        userData.setMoney(100000);
 
         startProgress(SigninActivity.this);
 
@@ -131,10 +128,10 @@ public class SigninActivity extends BaseActivity {
                 stopProgress();
                 Toast.makeText(context, "축하합니다! 가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                 SigninActivity.this.finish();
-                Intent intent;
-                if(checkedId == 0)
+                Intent intent = null;
+                if(check == 0)
                     intent = new Intent(SigninActivity.this, ReceiverMainActivity.class);
-                else
+                else if(check == 1)
                     intent = new Intent(SigninActivity.this, SenderMainActivity.class);
 
                 startActivity(intent);

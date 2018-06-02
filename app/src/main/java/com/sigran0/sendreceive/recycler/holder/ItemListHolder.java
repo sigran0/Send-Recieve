@@ -54,23 +54,29 @@ public class ItemListHolder extends BaseHolder<ModelManager.ItemData> {
         atvs[1].setText(data.getItemName());
 
         if(this.type == TYPE.CLIENT) {
-            if(data.getProcessState() == ModelManager.ItemState.NO_ONE_ACCEPT.ordinal()) {
+            if(data.getProcessState() == ModelManager.ItemState.NOT_PROCESS.ordinal()) {
                 atvs[3].setText("");
                 atvs[5].setText("아직 처리되지 않았습니다.");
-            } else if(data.getProcessState() == ModelManager.ItemState.DELIVERING.ordinal()) {
+            } else if(data.getProcessState() == ModelManager.ItemState.PROCESSING.ordinal()) {
                 atvs[3].setText(data.getDelivererName());
                 atvs[5].setText("배달중 입니다.");
+            } else if(data.getProcessState() == ModelManager.ItemState.DELIVERY_COMPLETE.ordinal()) {
+                atvs[3].setText(data.getDelivererName());
+                atvs[5].setText("인계 확인 중");
             } else if(data.getProcessState() == ModelManager.ItemState.COMPLETE.ordinal()) {
                 atvs[3].setText(data.getDelivererName());
                 atvs[5].setText("배달 완료");
             }
         } else {
-            if(data.getProcessState() == ModelManager.ItemState.NO_ONE_ACCEPT.ordinal()) {
+            if(data.getProcessState() == ModelManager.ItemState.NOT_PROCESS.ordinal()) {
                 atvs[3].setText(data.getCustomerName());
                 atvs[5].setText("아직 처리되지 않았습니다.");
-            } else if(data.getProcessState() == ModelManager.ItemState.DELIVERING.ordinal()) {
+            } else if(data.getProcessState() == ModelManager.ItemState.PROCESSING.ordinal()) {
                 atvs[3].setText(data.getCustomerName());
                 atvs[5].setText("배달중 입니다.");
+            } else if(data.getProcessState() == ModelManager.ItemState.DELIVERY_COMPLETE.ordinal()) {
+                atvs[3].setText(data.getCustomerName());
+                atvs[5].setText("인계 확인 중");
             } else if(data.getProcessState() == ModelManager.ItemState.COMPLETE.ordinal()) {
                 atvs[3].setText(data.getCustomerName());
                 atvs[5].setText("배달 완료");

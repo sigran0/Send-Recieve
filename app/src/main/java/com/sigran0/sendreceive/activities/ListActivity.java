@@ -79,6 +79,7 @@ public class ListActivity extends BaseActivity {
 
             @Override
             public void fail(String message) {
+                stopProgress();
                 showToast("알 수 없는 오류가 발생했습니다 ㅠ-ㅠ 다시 시도해 주세요.");
                 finish();
             }

@@ -2,6 +2,7 @@ package com.sigran0.sendreceive.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -44,6 +45,7 @@ public abstract class BaseActivity extends FragmentActivity{
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResourceId());
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         if(savedInstanceState != null){
             finish();

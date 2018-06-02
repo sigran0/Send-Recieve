@@ -56,6 +56,8 @@ dependencies {
     compile 'com.isseiaoki:simplecropview:1.1.7'
     compile 'gun0912.ted:tedpermission:2.1.0'
     compile 'com.squareup.retrofit2:retrofit:2.4.0'
+    compile 'com.android.support:multidex:1.0.1'
+
 
 
     //  소셜 관련

@@ -1,6 +1,7 @@
 package com.sigran0.sendreceive.fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,7 +17,6 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.sigran0.sendreceive.R;
 import com.sigran0.sendreceive.interfaces.DataListner;
 import com.sigran0.sendreceive.managers.BinderManager;
-import com.sigran0.sendreceive.managers.DatabaseManager;
 import com.sigran0.sendreceive.managers.ModelManager;
 import com.sigran0.sendreceive.managers.StaticDataManager;
 import com.sigran0.sendreceive.pagerAdapter.SendPagerAdapter;
@@ -38,7 +38,13 @@ public class SendFragment extends BaseFragment{
 
     private SendPagerAdapter sendPagerAdapter;
 
-    @BindViews({R.id.f_send_mtf_start_pos, R.id.f_send_mtf_end_pos, R.id.f_send_mtf_price, R.id.f_send_mtf_estimate_price, R.id.f_send_mtf_name})
+    @BindViews({
+            R.id.f_send_mtf_start_pos,
+            R.id.f_send_mtf_end_pos,
+            R.id.f_send_mtf_price,
+            R.id.f_send_mtf_estimate_price,
+            R.id.f_send_mtf_name,
+            R.id.f_send_mtf_deposit})
     MaterialTextField[] mtfs;
 
     @BindView(R.id.f_send_sdv_image)
@@ -57,7 +63,7 @@ public class SendFragment extends BaseFragment{
 
     @OnClick(R.id.f_send_bt_submit)
     void OnClickSubmit() {
-        String customerUid = sdm.getUserData().getUid();
+        final String customerUid = sdm.getUserData().getUid();
         String customeName = sdm.getUserData().getUsername();
         String senderUid = "";
         String senderName= "";
@@ -88,7 +94,6 @@ public class SendFragment extends BaseFragment{
             return;
         }
 
-        int estimate_price = Integer.parseInt(mtfs[3].getEditText().getText().toString());
         String name = mtfs[4].getEditText().getText().toString();
 
         if(name.length() <= 0) {
@@ -100,7 +105,8 @@ public class SendFragment extends BaseFragment{
         int size = msSize.getSelectedIndex();
         int processState = 0;
         long timestamp = System.currentTimeMillis() / 1000;
-
+        final int fee = estimateFee(category, size);
+        final int desposit = estimateDeposit(fee);
 
         ModelManager.ItemData data = new ModelManager.ItemData();
         data.setTimestamp(timestamp);
@@ -112,19 +118,37 @@ public class SendFragment extends BaseFragment{
         data.setStartPos(startPosition);
         data.setEndPos(endPosition);
         data.setPrice(price);
-        data.setEstimatePrice(estimate_price);
+        data.setEstimatePrice(fee);
         data.setCategory(category);
         data.setSize(size);
         data.setProcessState(processState);
+
+        if(desposit < 0){
+            showToast("예치금이 부족합니다 ㅠ-ㅠ");
+            return;
+        }
 
         startProgress();
 
         databaseManager.saveItemData(data, imageUri, new DataListner.DataSendListener() {
             @Override
             public void success() {
-                stopProgress();
-                showToast("배송 요청이 완료되었습니다.");
-                finishNoAnimation();
+                databaseManager.addUserMoney(customerUid, fee * -1, new DataListner.DataSendListener() {
+                    @Override
+                    public void success() {
+                        showToast("배송 요청이 완료되었습니다.");
+                        finishNoAnimation();
+                        stopProgress();
+                    }
+
+                    @Override
+                    public void fail(String message) {
+                        Log.d(TAG, "fail: " + message);
+                        showToast("오류가 발생했습니다.");
+                        finishNoAnimation();
+                        stopProgress();
+                    }
+                });
             }
 
             @Override
@@ -132,6 +156,7 @@ public class SendFragment extends BaseFragment{
                 stopProgress();
                 Log.d(TAG, "fail: " + message);
                 showToast("오류가 발생했습니다.");
+                finishNoAnimation();
             }
         });
     }
@@ -160,22 +185,67 @@ public class SendFragment extends BaseFragment{
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+    private void setFeeText(int fee) {
+        int deposit = estimateDeposit(fee);
+
+        mtfs[3].getEditText().setText(String.format("%d 원", fee));
+
+        if(deposit >= 0) {
+            mtfs[5].getEditText().setText(String.format("%d 원", deposit));
+            mtfs[5].getEditText().setTextColor(Color.WHITE);
+        } else {
+            mtfs[5].getEditText().setText(String.format("%d 원", deposit));
+            mtfs[5].getEditText().setTextColor(Color.RED);
+        }
+
+    }
+
+    private int estimateFee(int category, int size){
+        return StaticDataManager.estimateFee(category, size);
+    }
+
+    private int estimateDeposit(int fee) {
+        return sdm.getUserData().getMoney() - fee;
+    }
+
     @Override
     protected void initializeLayout(){
 
+        MaterialSpinner.OnItemSelectedListener listener = new MaterialSpinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+                int fee = estimateFee(msCategory.getSelectedIndex(), msSize.getSelectedIndex());
+                setFeeText(fee);
+            }
+        };
+
+        msCategory.setOnItemSelectedListener(listener);
+        msSize.setOnItemSelectedListener(listener);
+
+        setFeeText(estimateFee(0, 0));
+
+        int count = 0;
         for (final MaterialTextField mtf : mtfs) {
-            mtf.expand();
-            mtf.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(mtf.isExpanded()) {
-                        mtf.getEditText().setText("");
-                        mtf.toggle();
-                    } else {
-                        mtf.toggle();
+            if(count == 3 || count == 5){
+                mtf.toggle();
+                mtf.setClickable(false);
+                mtf.getEditText().setClickable(false);
+                mtf.getEditText().setFocusable(false);
+            } else {
+                mtf.expand();
+                mtf.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mtf.isExpanded()) {
+                            mtf.getEditText().setText("");
+                            mtf.toggle();
+                        } else {
+                            mtf.toggle();
+                        }
                     }
-                }
-            });
+                });
+            }
+            count += 1;
         }
 
         msCategory.setHint("물품 카테고리");

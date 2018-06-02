@@ -43,13 +43,28 @@ public class MyInfoFragment extends BaseFragment {
     @BindView(R.id.f_my_info_sdv_profile)
     SimpleDraweeView sdvProfile;
 
+    @BindView(R.id.f_my_info_bt_list)
+    Button btList;
+
+    @BindView(R.id.f_my_info_tv_money)
+    TextView tvMoney;
+
     StaticDataManager sdm = StaticDataManager.getInstance();
+
+    private void setTvMoney(int money){
+        tvMoney.setText(String.format("%d 캐시 보유중 입니다.", money));
+    }
 
     @OnClick(R.id.f_my_info_bt_list)
     void OnClickList(){
 
         Intent intent = new Intent(MyInfoFragment.this.getActivity(), ListActivity.class);
-        intent.putExtra("type", ItemListHolder.TYPE.CLIENT);
+
+        if(sdm.getUserData().getType() == 0)
+            intent.putExtra("type", ItemListHolder.TYPE.CLIENT);
+        else if(sdm.getUserData().getType() == 1)
+            intent.putExtra("type", ItemListHolder.TYPE.DELIVERER);
+
         startActivity(intent);
     }
 
@@ -77,10 +92,15 @@ public class MyInfoFragment extends BaseFragment {
             final String username = data.getUsername();
             final String usertype;
 
-            if(data.getType() == 0)
+            if(data.getType() == 0) {
                 usertype = "일반회원";
-            else
+                btList.setText("보낸 물건 내역 조회하기");
+            } else {
+                btList.setText("배송 업무 내역 조회하기");
                 usertype = "퀵배송 요원";
+            }
+
+            setTvMoney(data.getMoney());
 
             String imageId = data.getImageUrl();
 
@@ -113,10 +133,15 @@ public class MyInfoFragment extends BaseFragment {
                     final String username = data.getUsername();
                     final String usertype;
 
-                    if(data.getType() == 0)
+                    if(data.getType() == 0) {
                         usertype = "일반회원";
-                    else
+                        btList.setText("보낸 물건 내역 조회하기");
+                    } else {
+                        btList.setText("배송 업무 내역 조회하기");
                         usertype = "퀵배송 요원";
+                    }
+
+                    setTvMoney(data.getMoney());
 
                     String imageId = data.getImageUrl();
 

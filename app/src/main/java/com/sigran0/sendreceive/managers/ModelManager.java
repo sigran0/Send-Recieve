@@ -37,8 +37,9 @@ public class ModelManager {
     }
 
     public enum ItemState implements Serializable{
-        NO_ONE_ACCEPT,
-        DELIVERING,
+        NOT_PROCESS,
+        PROCESSING,
+        DELIVERY_COMPLETE,
         COMPLETE
     }
 
@@ -58,6 +59,7 @@ public class ModelManager {
         int category;
         int size;
         int processState;
+        int deposit;
     }
 
     @Data
