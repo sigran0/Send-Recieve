@@ -133,7 +133,12 @@ public class DatabaseManager {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         data.setProcessState(state.ordinal());
-                        data.setDelivererName(userManager.getUsername());
+                        data.setDelivererName(
+                                StaticDataManager
+                                        .getInstance()
+                                        .getUserData()
+                                        .getUsername()
+                        );
                         data.setDelivererUid(userManager.getUID());
                         dataSnapshot.getRef().setValue(data);
                         listener.success();
@@ -142,6 +147,25 @@ public class DatabaseManager {
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         listener.fail(databaseError.getMessage());
+                    }
+                });
+    }
+
+    public void getItemData(String itemId, final DataListner.DataReceiveListener<ModelManager.ItemData> listener) {
+        database.getReference("itemData")
+                .child(itemId)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ModelManager.ItemData result = dataSnapshot
+                                .getValue(ModelManager.ItemData.class);
+                        listener.success(result);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        listener.fail(databaseError.getMessage());
+                        throw databaseError.toException();
                     }
                 });
     }
@@ -157,6 +181,81 @@ public class DatabaseManager {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         ModelManager.UserData result = dataSnapshot
                                                         .getValue(ModelManager.UserData.class);
+                        listener.success(result);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        listener.fail(databaseError.getMessage());
+                        throw databaseError.toException();
+                    }
+                });
+    }
+
+    public void getMyWorkList(String uid, final DataListner.DataReceiveListener<ModelManager.ItemDataList> listener) {
+
+        database.getReference("itemData")
+                .orderByChild("delivererUid")
+                .equalTo(uid)
+                .orderByChild("processState")
+                .startAt(1)
+                .endAt(3)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ModelManager.ItemDataList result = new ModelManager.ItemDataList();
+
+                        for(DataSnapshot item : dataSnapshot.getChildren()) {
+                            ModelManager.ItemData temp = item.getValue(ModelManager.ItemData.class);
+                            result.getItemDataList().add(temp);
+                        }
+
+                        result.setSize(result.getItemDataList().size());
+                        listener.success(result);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
+    public void getMyItemList(final String uid, final DataListner.DataReceiveListener<ModelManager.ItemDataList> listener){
+
+        database.getReference("itemData")
+                .orderByChild("customerUid")
+                .equalTo(uid)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ModelManager.ItemDataList result = new ModelManager.ItemDataList();
+
+                        for(DataSnapshot item : dataSnapshot.getChildren()) {
+                            ModelManager.ItemData temp = item.getValue(ModelManager.ItemData.class);
+                            result.getItemDataList().add(temp);
+                        }
+
+                        result.setSize(result.getItemDataList().size());
+                        listener.success(result);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+    }
+
+    public void getUserData(String uid, final DataListner.DataReceiveListener<ModelManager.UserData> listener) {
+
+        database.getReference("userData")
+                .child(uid)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ModelManager.UserData result = dataSnapshot.getValue(ModelManager.UserData.class);
                         listener.success(result);
                     }
 
@@ -203,17 +302,6 @@ public class DatabaseManager {
                         throw databaseError.toException();
                     }
                 });
-    }
-
-    public void getMyItemList(final ValueEventListener listener){
-
-        final String uid = userManager.getUID();
-
-        database.getReference("itemData")
-                .orderByChild("customerUid")
-                .equalTo(uid)
-                .addValueEventListener(listener);
-
     }
 
     public void getMySendListData(final DataListner.DataReceiveListener<ModelManager.ItemDataList> listener) {

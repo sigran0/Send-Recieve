@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,6 +30,9 @@ public class ItemListFragment extends BaseFragment {
     @BindView(R.id.f_item_list_rv)
     RecyclerView rv;
 
+    @BindView(R.id.f_item_list_tv)
+    TextView tv;
+
     ItemListHolder.TYPE type;
     LinearLayoutManager layoutManager;
 
@@ -38,6 +42,16 @@ public class ItemListFragment extends BaseFragment {
 
     public void setType(ItemListHolder.TYPE type){
         this.type = type;
+    }
+
+    private void hasItem(boolean yes){
+        if(yes){
+            rv.setVisibility(View.VISIBLE);
+            tv.setVisibility(View.GONE);
+        } else {
+            rv.setVisibility(View.GONE);
+            tv.setVisibility(View.VISIBLE);
+        }
     }
 
     @Nullable
@@ -69,6 +83,11 @@ public class ItemListFragment extends BaseFragment {
 
                 result.setSize(result.getItemDataList().size());
                 itemListAdapter.setData(result);
+
+                if(result.getSize() <= 0)
+                    hasItem(false);
+                else
+                    hasItem(true);
             }
 
             @Override
@@ -76,18 +95,5 @@ public class ItemListFragment extends BaseFragment {
                 throw databaseError.toException();
             }
         });
-//        databaseManager
-//                .getNotProceedItemListData(
-//                        new DataListner.DataReceiveListener<ModelManager.ItemDataList>() {
-//            @Override
-//            public void success(ModelManager.ItemDataList data) {
-//                itemListAdapter.setData(data);
-//            }
-//
-//            @Override
-//            public void fail(String message) {
-//                Log.d(TAG, "fail: " + message);
-//            }
-//        });
     }
 }

@@ -69,7 +69,7 @@ public class SigninActivity extends BaseActivity {
         String birthDate = materialTextFields[3].getEditText().getText().toString();
         String uid = userManager.getUID();
 
-        int checkedId = radioGroup.getCheckedRadioButtonId();
+        final int checkedId = radioGroup.getCheckedRadioButtonId();
 
         int check = -1;
 
@@ -126,7 +126,12 @@ public class SigninActivity extends BaseActivity {
                 stopProgress();
                 Toast.makeText(context, "축하합니다! 가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                 SigninActivity.this.finish();
-                Intent intent = new Intent(SigninActivity.this, ReceiverMainActivity.class);
+                Intent intent;
+                if(checkedId == 0)
+                    intent = new Intent(SigninActivity.this, ReceiverMainActivity.class);
+                else
+                    intent = new Intent(SigninActivity.this, SenderMainActivity.class);
+
                 startActivity(intent);
                 finish();
             }

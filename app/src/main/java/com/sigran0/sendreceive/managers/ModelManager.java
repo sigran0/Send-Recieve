@@ -14,6 +14,7 @@ public class ModelManager {
     public static enum ITEM_STATE {
         NOT_PROCESS,
         PROCESSING,
+        DELIVERY_COMPLETE,
         COMPLETE
     }
 

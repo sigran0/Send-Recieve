@@ -34,6 +34,16 @@ public class ListActivity extends BaseActivity {
     ModelManager.ItemDataList data;
     ItemListHolder.TYPE type;
 
+    private void hasItem(boolean yes){
+        if(yes){
+            rv.setVisibility(View.VISIBLE);
+            tv.setVisibility(View.GONE);
+        } else {
+            rv.setVisibility(View.GONE);
+            tv.setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,32 +65,31 @@ public class ListActivity extends BaseActivity {
         rv.setAdapter(adapter);
         rv.setLayoutManager(layoutManager);
 
-        startProgress(ListActivity.this);
-
-        DatabaseManager.getInstance().getMyItemList(new ValueEventListener() {
+        DataListner.DataReceiveListener<ModelManager.ItemDataList> listener = new DataListner.DataReceiveListener<ModelManager.ItemDataList>() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                stopProgress();
-
-                ModelManager.ItemDataList result = new ModelManager.ItemDataList();
-
-                for(DataSnapshot item : dataSnapshot.getChildren()) {
-                    ModelManager.ItemData temp = item.getValue(ModelManager.ItemData.class);
-                    result.getItemDataList().add(temp);
-                }
-
-                result.setSize(result.getItemDataList().size());
+            public void success(ModelManager.ItemDataList result) {
                 data = result;
                 adapter.setData(data);
+
+                if(result.getSize() <= 0)
+                    hasItem(false);
+                else
+                    hasItem(true);
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                stopProgress();
-                throw databaseError.toException();
+            public void fail(String message) {
+                showToast("알 수 없는 오류가 발생했습니다 ㅠ-ㅠ 다시 시도해 주세요.");
+                finish();
             }
-        });
+        };
+
+        //  클라이언트면
+        if (type.ordinal() == 0)
+            DatabaseManager.getInstance().getMyItemList(userManager.getUID(), listener);
+        //  딜리버면
+        else if(type.ordinal() == 1)
+            DatabaseManager.getInstance().getMyWorkList(userManager.getUID(), listener);
     }
 
     @Override

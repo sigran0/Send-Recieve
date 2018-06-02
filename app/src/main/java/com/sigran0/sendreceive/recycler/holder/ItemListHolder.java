@@ -39,11 +39,11 @@ public class ItemListHolder extends BaseHolder<ModelManager.ItemData> {
 
         if(this.type == TYPE.CLIENT) {
             atvs[0].setText("상품 이름");
-            atvs[2].setText("배송자 정보");
+            atvs[2].setText("배송자 이름");
             atvs[4].setText("배송 상태");
         } else {
             atvs[0].setText("상품 이름");
-            atvs[2].setText("신청자 정보");
+            atvs[2].setText("신청자 이름");
             atvs[4].setText("배송 상태");
         }
     }
@@ -66,13 +66,13 @@ public class ItemListHolder extends BaseHolder<ModelManager.ItemData> {
             }
         } else {
             if(data.getProcessState() == ModelManager.ItemState.NO_ONE_ACCEPT.ordinal()) {
-                atvs[3].setText("");
+                atvs[3].setText(data.getCustomerName());
                 atvs[5].setText("아직 처리되지 않았습니다.");
             } else if(data.getProcessState() == ModelManager.ItemState.DELIVERING.ordinal()) {
-                atvs[3].setText(data.getDelivererName());
+                atvs[3].setText(data.getCustomerName());
                 atvs[5].setText("배달중 입니다.");
             } else if(data.getProcessState() == ModelManager.ItemState.COMPLETE.ordinal()) {
-                atvs[3].setText(data.getDelivererName());
+                atvs[3].setText(data.getCustomerName());
                 atvs[5].setText("배달 완료");
             }
         }

@@ -17,6 +17,7 @@ import com.sigran0.sendreceive.R;
 import com.sigran0.sendreceive.dialogs.SimpleProgressDialog;
 import com.sigran0.sendreceive.fragments.BaseFragment;
 import com.sigran0.sendreceive.managers.BinderManager;
+import com.sigran0.sendreceive.managers.DatabaseManager;
 import com.sigran0.sendreceive.managers.UserManager;
 
 import butterknife.ButterKnife;
@@ -31,7 +32,9 @@ public abstract class BaseActivity extends FragmentActivity{
     private int mFinishActivityAnimationEnterResId = -1, mFinishActivityAnimationExitResId = -1;
     private boolean mFinishActivityAnimation = false;
 
-    private BinderManager binderManager = BinderManager.getInstance();
+    protected BinderManager binderManager = BinderManager.getInstance();
+    protected DatabaseManager dbManager = DatabaseManager.getInstance();
+    protected UserManager userManager = UserManager.getInstance();
 
     private final int GALLERY_CODE = 1112;
 

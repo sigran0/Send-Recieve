@@ -8,8 +8,21 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/f_item_list_rv"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/f_item_list_tv"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="아직 물품이 없습니다 ㅠ-ㅠ"
+        android:textColor="@color/md_white_1000"
+        android:alpha="0.75"
+        android:textSize="25sp"
+        />
 
 </android.support.constraint.ConstraintLayout>
